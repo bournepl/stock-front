@@ -1,0 +1,226 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title"> Filter</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus1===true}">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-search"></i></span>
+                </div>
+                <input type="text" placeholder="Search..." class="form-control" (focus)="focus1=true"
+                  (blur)="focus1=false" [(ngModel)]="title" [ngModelOptions]="{standalone: true}"
+                  (keyup)="onKeyUp($event)" />
+              </div>
+            </div>
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+
+    <div class="col-md-12">
+      <div class="card ">
+
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-6">
+              <h4 class="card-title">รายชื่อสาขา</h4>
+            </div>
+
+            <div class="col-md-6">
+              <button type="button" class="btn btn-info  float-right mt-0 ml-2">
+                Export
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="card-body">
+
+          <div class="table-responsive">
+            <table class="table table-hover">
+
+              <thead class="text-gray">
+                <tr>
+                  <th>ชื่อสาขา</th>
+                  <th>รหัสสาขา</th>
+                  <th>เบอร์โทรสาขา</th>
+                  <th style="width: 25%;">ที่อยู่</th>
+                  <th>จังหวัด</th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr
+                  *ngFor="let item of getBranch | paginate: {id: 'pagination',itemsPerPage: pageSize, currentPage: page,totalItems: count };let i =index;">
+
+                  <td class="text-dark">
+                    <span style="font-weight: bold;" class="text-dark"> {{item.branchName}}</span>
+                  </td>
+                  <td> {{item.branchId}}</td>
+                  <td> {{item.phone}}</td>
+                  <td> {{item.address}} อำเภอ{{item.district.name}} <br> จังหวัด{{item.province.name}}
+                    {{item.zipcode}}
+                  </td>
+                  <td> {{item.province.name}}</td>
+
+                  <td class="text-center">
+
+                    <button mat-raised-button type="button" matTooltip="Manage" [matTooltipPosition]="'above'"
+                      class="btn btn-warning btn-link" (click)="onManagement(item.id)">
+                      <i class="material-icons">info</i><span class="text-warning"></span>
+                    </button>
+                    <button type="button" matTooltip="Edit" [matTooltipPosition]="'above'"
+                      class="btn btn-success btn-link btn-sm btn-icon" (click)="showChildModal2(item.id)">
+                      <i class="material-icons">edit</i>
+                    </button>
+
+
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+          <div class="row mt-2">
+            <div class="col-md-12 text-center">
+              <pagination-controls class="pageData" id="pagination" previousLabel="Prev" nextLabel="Next"
+                [responsive]="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal fade" bsModal #staticModal2="bs-modal" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-static-name" class="modal-title pull-left card-title text-primary">เพิ่มร้านค้าใหม่</h4>
+        <button type="button" class="close" aria-label="Close" (click)="hideChildModal2()">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+      <form [formGroup]="branchUpdateForm" (ngSubmit)="onUpdate()">
+        <div class="modal-body">
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': fUpdate['branchName'].touched && fUpdate['branchName'].errors, 'has-success': fUpdate['branchName'].valid }">
+                <label>ชื่อสาขา</label>
+                <input type="text" class="form-control" formControlName="branchName">
+              </div>
+
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-6  ">
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': fUpdate['branchId'].touched && fUpdate['branchId'].errors, 'has-success': fUpdate['branchId'].valid }">
+                <label>รหัสสาขา</label>
+                <input class="form-control" placeholder="" formControlName="branchId" required>
+              </div>
+
+            </div>
+
+            <div class="col-md-6  ">
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': fUpdate['branchPhone'].touched && fUpdate['branchPhone'].errors, 'has-success': fUpdate['branchPhone'].valid }">
+                <label>เบอร์โทรศัพท์</label>
+                <input class="form-control" placeholder="" formControlName="branchPhone" required>
+              </div>
+
+            </div>
+          </div>
+
+
+          <div class="row">
+
+
+            <div class="col-md-12 ">
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': fUpdate['address'].touched && fUpdate['address'].errors, 'has-success': fUpdate['address'].valid }">
+                <label>ที่อยู่</label>
+                <input class="form-control" placeholder="" formControlName="address" required>
+              </div>
+
+
+            </div>
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-12  ">
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': fUpdate['province'].touched && fUpdate['province'].errors, 'has-success': fUpdate['province'].valid }">
+                <label>จังหวัด</label>
+                <select class="form-control" formControlName="province" (change)="onChangeProvince($event.target)">
+                  <option value=""> จังหวัด </option>
+                  <option *ngFor="let getProvince of getProvince" [value]="getProvince.pid"> {{getProvince.name}}
+                  </option>
+                </select>
+              </div>
+
+            </div>
+
+
+          </div>
+          <div class="row">
+            <div class="col-md-6 ">
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': fUpdate['district'].touched && fUpdate['district'].errors, 'has-success': fUpdate['district'].valid }">
+                <label>อำเภอ</label>
+                <select class="form-control" formControlName="district" (change)="onChangeDistrict($event.target)">
+                  <option value=""> อำเภอ </option>
+                  <option *ngFor="let getDistrict of getDistrict" [value]="getDistrict.id"> {{getDistrict.name}}
+                  </option>
+                </select>
+              </div>
+
+            </div>
+            <div class="col-md-6 ">
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': fUpdate['zipcode'].touched && fUpdate['zipcode'].errors, 'has-success': fUpdate['zipcode'].valid }">
+                <label>รหัสไปรษณีย์</label>
+                <input class="form-control" placeholder="" formControlName="zipcode" required>
+              </div>
+
+            </div>
+
+          </div>
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="submit" [disabled]="branchUpdateForm.invalid" class="btn btn-success">ยืนยัน</button>
+          <button type="button" class="btn btn-gray" (click)="hideChildModal2()">ยกเลิก</button>
+
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>

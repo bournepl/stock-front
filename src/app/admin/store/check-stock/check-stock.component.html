@@ -1,0 +1,397 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title"> Filter</h5>
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus===true}">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-search"></i></span>
+                </div>
+                <input type="text" placeholder="Search..." class="form-control" (focus)="focus=true"
+                  (blur)="focus=false" (keyup)="onKeyUp($event)" />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus1===true}">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                </div>
+                <input class="form-control" placeholder="Date" name="dp" ngbDatepicker (focus)="focus1=true"
+                  (blur)="focus1=false" #d2="ngbDatepicker" (click)="d2.toggle()" autocomplete="off" [(ngModel)]="today"
+                  (dateSelect)="onDateSelect($event)">
+              </div>
+
+            </div>
+
+            <div class="col-md-2">
+              <button class="btn btn-primary btn-round btn-block m-0" (click)="showChildModal()">ตรวจสอบสินค้า</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+
+    <div class="col-md-12">
+      <div class="card">
+
+
+
+        <div class="card-body">
+          <div class="nav-tabs-navigation mb-3">
+            <div class="nav-tabs-wrapper">
+              <ul class="nav nav-tabs" data-tabs="tabs">
+                <li class="nav-item">
+                  <a mat-button class="nav-link active" href="#profile" data-toggle="tab">
+                    รายการตรวจสอบสินค้า
+                    <div class="ripple-container"></div>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a mat-button class="nav-link" href="#messages" data-toggle="tab">
+                    รายการที่ยังไม่ตรวจสอบ
+                    <div class="ripple-container"></div>
+                  </a>
+                </li>
+
+              </ul>
+            </div>
+          </div>
+          <div class="tab-content">
+            <div class="tab-pane active" id="profile">
+              <div class="row mb-2">
+                <div class="col-md-6">
+
+                  <h6 class="text-dark mt-2"> วันที่ตรวจนับ {{date}}</h6>
+                </div>
+                <div class="col-md-6">
+
+
+                  <button type="button" class="btn btn-info  float-right mt-0 ml-2" (click)="exportExcel()">
+                    Export
+                  </button>
+
+
+                </div>
+              </div>
+
+
+              <div class="">
+                <table class="table table-hover" id="excel-table">
+
+                  <thead class="text-primary">
+                    <tr>
+                      <th class="text-center" style="width: 10%;">ลำดับที่</th>
+                      <th>ชื่อวัตถุดิบ</th>
+                      <th>ชื่อหมวดหมู่</th>
+                      <th>จำนวน</th>
+                      <th>หน่วยนับสต๊อก</th>
+                      <th> ปริมาณ</th>
+                      <th> หน่วยใช้</th>
+                      <th> ผู้ตรวจนับ</th>
+                      <th> เวลาตรวจนับ</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr
+                      *ngFor="let item of getCheckStock | paginate: {id: 'pagination',itemsPerPage: pageSize, currentPage: page,totalItems: count };let i =index;">
+
+                      <td class="text-center"> {{(page-1) * pageSize + i + 1}}</td>
+                      <td class="text-primary">
+
+                        <span class="text-primary text-bold"> {{item.ingredient.ingredientName}}</span>
+
+                      </td>
+                      <td>{{item.ingredient.category.ingredientCategoryName}}</td>
+                      <td>{{item.quantity}} </td>
+                      <td>{{item.ingredient.stockUnit}}</td>
+                      <td> {{item.amount}}</td>
+                      <td>{{item.ingredient.useUnit}}</td>
+                      <td>{{item.user.name}}</td>
+                      <td>{{item.date |date:"dd/MM/yyyy HH:mm:ss" }}</td>
+                    </tr>
+
+
+                  </tbody>
+                </table>
+              </div>
+              <hr>
+              <div class="row mt-2 ">
+
+                <div class="col-md-6 align-self-center">
+                  <select class="form-control float-right" style="width: 100px;" [(ngModel)]="pageSize"
+                    (change)="onPageChange($event)">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                    <option value="500">500</option>
+                    <option value="1000">1000</option>
+                  </select>
+                  <span class="float-right mt-1 mr-3 text-gray">Item Per Page : </span>
+
+                </div>
+                <div class="col-md-6 ">
+                  <pagination-controls class="pageData " id="pagination" previousLabel="Prev" nextLabel="Next"
+                    [responsive]="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="messages">
+              <div class="row mb-2">
+                <div class="col-md-12">
+
+                  <h6 class="text-dark mt-2"> วันที่ตรวจนับ {{date}}</h6>
+                </div>
+
+              </div>
+              <div class="">
+                <table class="table table-hover">
+
+                  <thead class="text-primary">
+                    <tr>
+                      <th class="text-center" style="width: 10%;">ลำดับที่</th>
+                      <th>ชื่อวัตถุดิบ</th>
+                      <th>ชื่อหมวดหมู่</th>
+
+                      <th>หน่วยนับสต๊อก</th>
+
+                      <th> หน่วยใช้</th>
+                      <th class="text-center">Action</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr
+                      *ngFor="let item of getNonCheckStock | paginate: {id: 'pagination2',itemsPerPage: pageSizeNon, currentPage: pageNon,totalItems: countNon };let i =index;">
+
+                      <td class="text-center"> {{(page-1) * pageSize + i + 1}}</td>
+                      <td class="text-primary">
+
+                        <span class="text-primary text-bold"> {{item.ingredientName}}</span>
+
+                      </td>
+                      <td>{{item.category.ingredientCategoryName}}</td>
+
+                      <td>{{item.stockUnit}}</td>
+
+                      <td>{{item.useUnit}}</td>
+
+                      <td class="text-center">
+                        <button type="button" matTooltip="ตรวจสอบ" [matTooltipPosition]="'above'"
+                          class="btn btn-success btn-sm" (click)="showNonCheck(item)">
+                          ตรวจสอบ
+                        </button>
+                      </td>
+                    </tr>
+
+
+                  </tbody>
+                </table>
+              </div>
+              <div class="row mt-2 ">
+
+                <div class="col-md-6 align-self-center">
+                  <select class="form-control float-right" style="width: 100px;" [(ngModel)]="pageSizeNon"
+                    (change)="onPageChangeNonCheck($event)">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                    <option value="500">500</option>
+                    <option value="1000">1000</option>
+                  </select>
+                  <span class="float-right mt-1 mr-3 text-gray">Item Per Page : </span>
+
+                </div>
+                <div class="col-md-6 ">
+                  <pagination-controls class="pageData" id="pagination2" previousLabel="Prev" nextLabel="Next"
+                    [responsive]="true" (pageChange)="handlePageChangeNonCheck($event)"></pagination-controls>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="modal fade" bsModal #staticModal="bs-modal" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="dialog-static-name" class="modal-title pull-left card-title text-primary mt-0">ตรวจสอบสินค้า
+        </h5>
+        <button type="button" class="close" aria-label="Close" (click)="hideChildModal()">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="chackForm">
+          <div class="row">
+            <div class="col-md-12 pr-1">
+
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': f['ingredients'].touched && f['ingredients'].errors, 'has-success': f['ingredients'].valid }">
+                <label>เลือกวัตถุดิบ *</label>
+                <angular2-multiselect class="form-control" [data]="getIngredients" [settings]="dropdownSettings"
+                  (onSelect)="onItemSelect($event)" formControlName="ingredients">
+                  <c-item>
+                    <ng-template let-item="item">
+                      <label style="color: #333;min-width: 150px;">{{item.ingredientName}}</label>
+                    </ng-template>
+                  </c-item>
+                </angular2-multiselect>
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+
+
+            <div class="col-md-8">
+              <div class="form-group">
+                <label for="email">จำนวนนับสต๊อก</label>
+                <input type="text" class="form-control" formControlName="quantity">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="email">หน่วยนับสต๊อก</label>
+                <input type="text" disabled class="form-control" [value]="stockUnit">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+
+
+            <div class="col-md-8">
+              <div class="form-group">
+                <label for="email">ปริมาณนับสต๊อก</label>
+                <input type="text" class="form-control" formControlName="amount">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="email">หน่วยใช้</label>
+                <input type="text" disabled class="form-control" [value]="useUnit">
+              </div>
+            </div>
+          </div>
+
+
+        </form>
+
+      </div>
+
+
+      <div class="modal-footer">
+        <button type="button" [disabled]="chackForm.invalid" class="btn btn-success" (click)="create()">ยืนยัน</button>
+        <button type="button" class="btn btn-gray" (click)="hideChildModal()">ยกเลิก</button>
+
+      </div>
+
+
+    </div>
+  </div>
+
+</div>
+
+
+
+<div class="modal fade" bsModal #staticModalNonCheck="bs-modal" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="dialog-static-name" class="modal-title pull-left card-title text-primary mt-0">ตรวจสอบสินค้า
+        </h5>
+        <button type="button" class="close" aria-label="Close" (click)="hideChildModalNonCheck()">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="chackNonForm">
+          <div class="row" *ngIf="getIngredientsByIdNonCheck">
+            <div class="col-md-12 text-center">
+              <h5>{{getIngredientsByIdNonCheck.ingredientName}}</h5>
+            </div>
+
+          </div>
+          <hr>
+          <div class="row">
+
+
+            <div class="col-md-8">
+              <div class="form-group">
+                <label for="email">จำนวนนับสต๊อก</label>
+                <input type="text" class="form-control" formControlName="quantity">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="email">หน่วยนับสต๊อก</label>
+                <input type="text" disabled class="form-control" [value]="stockUnitNonCheck">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+
+
+            <div class="col-md-8">
+              <div class="form-group">
+                <label for="email">ปริมาณนับสต๊อก</label>
+                <input type="text" class="form-control" formControlName="amount">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="email">หน่วยใช้</label>
+                <input type="text" disabled class="form-control" [value]="useUnitNonCheck">
+              </div>
+            </div>
+          </div>
+
+
+        </form>
+
+      </div>
+
+
+      <div class="modal-footer">
+        <button type="button" [disabled]="chackNonForm.invalid" class="btn btn-success"
+          (click)="createNonCheck()">ยืนยัน</button>
+        <button type="button" class="btn btn-gray" (click)="hideChildModalNonCheck()">ยกเลิก</button>
+
+      </div>
+
+
+    </div>
+  </div>
+
+</div>

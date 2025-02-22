@@ -1,0 +1,128 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title"> Filter</h5>
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus1===true}">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-search"></i></span>
+                </div>
+                <input type="text" placeholder="Search..." class="form-control" (focus)="focus1=true"
+                  (blur)="focus1=false" />
+              </div>
+            </div>
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+
+    <div class="col-md-12">
+      <div class="card">
+
+        <div class="card-header">
+          <h5 class="card-title">รายการใบรับสินค้า (RI)</h5>
+        </div>
+
+        <div class="card-body">
+
+          <div class="">
+            <table class="table table-hover">
+
+              <thead class="text-primary">
+                <tr class="tr-header">
+                  <th>No.</th>
+                  <th>เลขที่เอกสาร</th>
+                  <th>วันที่รับสินค้า</th>
+                  <th>ผู้จัดจำหน่าย</th>
+                  <th>มูลค่า</th>
+                  <th>ผู้สร้างรายการ</th>
+                  <th>อ้างอิง</th>
+                  <th>สถานะ</th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr
+                  *ngFor="let item of getAllOrderDetail | paginate: {id: 'pagination',itemsPerPage: pageSize, currentPage: page,totalItems: count };let i =index;">
+                  <td class="">
+                    <div class="text-center">
+                      {{(page-1) * pageSize + i + 1}}
+                    </div>
+                  </td>
+                  <td class="text-primary">
+                    <div class="img-container">
+                      <a class="text-primary text-bold" (click)="onDetail(item.id)">{{item.riId}}</a>
+                    </div>
+                  </td>
+                  <td>{{item.dateDay}}</td>
+                  <td>{{item.supplier.name}}</td>
+                  <td>{{item.totalAll| number:'1.2-2' }}</td>
+                  <td>{{item.user.name}}</td>
+                  <td>
+                    <a class="text-info" (click)="onRouter(item.reference)">
+                      {{item.reference}}
+                    </a>
+                  </td>
+                  <td><span class="badge badge-warning" style="font-weight: 500; font-size: 12px;"
+                      *ngIf="item.orderStatus=='รออนุมัติ'">{{item.orderStatus}}</span>
+                    <span class="badge badge-success" style="font-weight: 500; font-size: 12px;"
+                      *ngIf="item.orderStatus=='ดำเนินการแล้ว'">{{item.orderStatus}}</span>
+                    <span class="badge badge-info" style="font-weight: 500; font-size: 12px;"
+                      *ngIf="item.orderStatus=='อนุมัติแล้ว'">{{item.orderStatus}}</span>
+                    <span class="badge badge-danger" style="font-weight: 500; font-size: 12px;"
+                      *ngIf="item.orderStatus=='ไม่อนุมัติ'">{{item.orderStatus}}</span>
+                    <span class="badge badge-purple" style="font-weight: 500; font-size: 12px;"
+                      *ngIf="item.orderStatus=='กำลังดำเนินการ'">{{item.orderStatus}}</span>
+                    <span class="badge badge-danger" style="font-weight: 500; font-size: 12px;"
+                      *ngIf="item.orderStatus=='ยกเลิกรายการ'">{{item.orderStatus}}</span>
+                    <span class="badge badge-success" style="font-weight: 500; font-size: 12px;"
+                      *ngIf="item.orderStatus=='ชำระเงินแล้ว'">{{item.orderStatus}}</span>
+                  </td>
+
+                  <td class="text-center">
+
+
+                    <button mat-raised-button type="button" matTooltip="View" [matTooltipPosition]="'above'"
+                      class="btn btn-warning btn-link btn-icon btn-sm  " (click)="onDetail(item.id)">
+                      <i class="material-icons">visibility</i>
+                    </button>
+                    <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'"
+                      class="btn btn-danger btn-sm btn-link btn-icon  ">
+                      <i class="material-icons">close</i>
+                    </button>
+
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+          <div class="row mt-2">
+
+            <div class="col-md-12 text-center">
+              <pagination-controls class="pageData" id="pagination" previousLabel="Prev" nextLabel="Next"
+                [responsive]="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

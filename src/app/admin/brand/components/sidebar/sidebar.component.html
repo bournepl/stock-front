@@ -1,0 +1,95 @@
+<div class="logo">
+  <a class="simple-text text-center">
+    <img class="image-logo mb-3" src="assets/img/final.png" alt="logo">
+  </a>
+</div>
+<div class="sidebar-wrapper">
+  <ul class="nav">
+    <li routerLinkActive="active" class="nav-item">
+      <a class="nav-link" [routerLink]="'/admin/brand/dashboard'">
+        <i class="material-icons">dashboard</i>
+        <p>Dashboard</p>
+      </a>
+    </li>
+    <li routerLinkActive="active" class="nav-item"><!----><a data-toggle="collapse" class="nav-link collapsed"
+        href="#report" aria-expanded="false"><i class="material-icons">list_alt</i>
+        <p>Report<b class="caret"></b></p>
+      </a><!---->
+      <div class="collapse" id="report">
+        <ul class="nav mt-2">
+
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" [routerLink]="'/admin/brand/report/summary-report'">
+              <span class="sidebar-normal ml-5">Summary Report</span>
+            </a>
+          </li>
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" [routerLink]="'/admin/brand/report/inventory-report'">
+              <span class="sidebar-normal ml-5">Invrntory Report</span>
+            </a>
+          </li>
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" [routerLink]="'/admin/brand/report/stock-report'">
+              <span class="sidebar-normal ml-5">Movement Report</span>
+            </a>
+          </li>
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" [routerLink]="'/admin/brand/report/sales-report'">
+              <span class="sidebar-normal ml-5">Sales Report</span>
+            </a>
+          </li>
+
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" [routerLink]="'/admin/brand/report/supplier-report'">
+              <span class="sidebar-normal ml-5">Supplier Report</span>
+            </a>
+          </li>
+
+        </ul>
+      </div><!---->
+    </li>
+
+    <li routerLinkActive="active" class="nav-item">
+      <a class="nav-link" [routerLink]="'/admin/brand/branch'">
+        <i class="material-icons">add_home</i>
+        <p>Branch</p>
+      </a>
+    </li>
+    <li routerLinkActive="active" class="nav-item">
+      <a class="nav-link" [routerLink]="'/admin/brand/duplicate'">
+        <i class="material-icons">file_copy</i>
+        <p>Duplicate</p>
+      </a>
+    </li>
+    <li routerLinkActive="active" class="nav-item">
+      <a class="nav-link" [routerLink]="'/admin/brand/user'">
+        <i class="material-icons">person</i>
+        <p>ผู้ใช้งานระบบ</p>
+      </a>
+    </li>
+
+    <li routerLinkActive="active" class="nav-item"><!----><a data-toggle="collapse" class="nav-link collapsed"
+        href="#setting" aria-expanded="false"><i class="material-icons">list_alt</i>
+        <p>Setting<b class="caret"></b></p>
+      </a><!---->
+      <div class="collapse" id="setting">
+        <ul class="nav mt-2">
+
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" [routerLink]="'/admin/brand/setting/user'">
+              <span class="sidebar-normal ml-5">ข้อมูลส่วนตัว</span>
+            </a>
+          </li>
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" [routerLink]="'/admin/brand/setting/company'">
+              <span class="sidebar-normal ml-5">ตั้งค่าแบรนด์</span>
+            </a>
+          </li>
+
+        </ul>
+      </div><!---->
+    </li>
+
+  </ul>
+
+</div>

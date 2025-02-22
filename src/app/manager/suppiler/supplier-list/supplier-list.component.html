@@ -1,0 +1,250 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title"> Filter</h5>
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+            <div class="col-md-10">
+              <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus1===true}">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-search"></i></span>
+                </div>
+                <input type="text" placeholder="Search..." class="form-control" (focus)="focus1=true"
+                  (blur)="focus1=false" [(ngModel)]="title" [ngModelOptions]="{standalone: true}"
+                  (keyup)="onKeyUp($event)" />
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <button class="btn btn-primary btn-round btn-block m-0"
+                (click)="showChildModal()">เพิ่มผู้จัดจำหน่าย</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+
+    <div class="col-md-12">
+      <div class="card">
+
+        <div class="card-header">
+
+          <div class="row">
+            <div class="col-md-6">
+
+              <h5 class="card-title">รายชื่อผู้จัดจำหน่าย</h5>
+            </div>
+            <div class="col-md-6">
+
+              <button type="button" class="btn btn-warning  float-right mt-0 ml-2">
+                Import
+              </button>
+              <button type="button" class="btn btn-info  float-right mt-0 ml-2">
+                Export
+              </button>
+
+
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+
+          <div class="">
+            <table class="table table-hover">
+
+              <thead class="text-primary">
+                <tr>
+                  <th>ชื่อผู้จัดจำหน่าย</th>
+                  <th>เบอร์โทร</th>
+                  <th>รายละเอียด</th>
+                  <th>อำเภอ</th>
+                  <th>จังหวัด</th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr
+                  *ngFor="let item of getSupplier | paginate: {id: 'pagination',itemsPerPage: pageSize, currentPage: page,totalItems: count };let i =index;">
+
+                  <td class="text-primary">
+                    <div class="img-container">
+                      <span class="text-primary text-bold">{{item.name}}</span>
+                    </div>
+                  </td>
+                  <td> {{item.phone}}</td>
+                  <td> {{item.description}}</td>
+
+                  <td>{{item.district.name}} </td>
+                  <td>
+                    {{item.province.name}}
+                  </td>
+                  <td class="text-center">
+
+
+                    <button mat-raised-button type="button" matTooltip="Edit" [matTooltipPosition]="'above'"
+                      class="btn btn-success btn-sm btn-link  btn-icon" (click)="onDetail(item.id)">
+                      <i class="material-icons">edit</i>
+                    </button>
+                    <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'"
+                      class="btn btn-danger btn-sm btn-link btn-icon" (click)="onDelete(item.id)">
+                      <i class="material-icons">close</i>
+                    </button>
+
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+          <div class="row mt-2">
+
+            <div class="col-md-12 text-center">
+              <pagination-controls class="pageData" id="pagination" previousLabel="Prev" nextLabel="Next"
+                [responsive]="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+<div class="modal fade" bsModal #staticModal="bs-modal" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="dialog-static-name" class="modal-title pull-left card-title text-primary mt-0">เพิ่มผู้จัดจำหน่ายใหม่
+        </h5>
+        <button type="button" class="close" aria-label="Close" (click)="hideChildModal()">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+      <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+
+          <div class="row">
+            <div class="col-md-12 supplier">
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': f['name'].touched && f['name'].errors, 'has-success': f['name'].valid }">
+                <label>ชื่อผู้จัดจำหน่าย</label>
+                <input type="text" class="form-control" formControlName="name">
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-6  supplier">
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': f['phone'].touched && f['phone'].errors, 'has-success': f['phone'].valid }">
+                <label for="phone">เบอร์โทร</label>
+                <input type="text" class="form-control" formControlName="phone">
+              </div>
+            </div>
+            <div class="col-md-6 supplier">
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': f['email'].touched && f['email'].errors, 'has-success': f['email'].valid }">
+                <label>อีเมล</label>
+
+                <input type="email" class="form-control" formControlName="email">
+              </div>
+            </div>
+
+
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': f['idNumber'].touched && f['idNumber'].errors, 'has-success': f['idNumber'].valid }">
+                <label for="idNumber">เลขผู้เสียภาษี</label>
+                <input type="text" class="form-control" formControlName="idNumber">
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': f['address'].touched && f['address'].errors, 'has-success': f['address'].valid }">
+                <label>ที่อยู่</label>
+                <input type="text" class="form-control" formControlName="address">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 supplier">
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': f['province'].touched && f['province'].errors, 'has-success': f['province'].valid }">
+                <label>จังหวัด</label>
+                <select class="form-control" formControlName="province" (change)="onChangeProvince($event.target)">
+                  <option value=""> จังหวัด </option>
+                  <option *ngFor="let getProvince of getProvince" [value]="getProvince.pid"> {{getProvince.name}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4 px-1">
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': f['district'].touched && f['district'].errors, 'has-success': f['district'].valid }">
+                <label>อำเภอ</label>
+                <select class="form-control" formControlName="district" (change)="onChangeDistrict($event.target)">
+                  <option value=""> อำเภอ </option>
+                  <option *ngFor="let getDistrict of getDistrict" [value]="getDistrict.id"> {{getDistrict.name}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4 supplier">
+
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': f['zipcode'].touched && f['zipcode'].errors, 'has-success': f['zipcode'].valid }">
+                <label>รหัสไปรษณีย์</label>
+                <input class="form-control" placeholder="" formControlName="zipcode">
+              </div>
+
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': f['description'].touched && f['description'].errors, 'has-success': f['description'].valid }">
+                <label>รายละเอียด</label>
+                <textarea rows="4" cols="80" class="form-control" formControlName="description"> </textarea>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+
+
+        <div class="modal-footer">
+          <button type="submit" [disabled]="supplierForm.invalid" class="btn btn-success">ยืนยัน</button>
+          <button type="button" class="btn btn-gray" (click)="hideChildModal()">ยกเลิก</button>
+
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+</div>

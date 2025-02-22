@@ -1,0 +1,190 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title"> Filter</h5>
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+            <div class="col-md-5">
+              <div class="form-group">
+                <select class="form-control" (change)="onChange($event)" [(ngModel)]="categoryId"
+                  [ngModelOptions]="{standalone: true}">
+                  <option value="">Category</option>
+                  <option *ngFor="let getCategory of getCategory" [value]="getCategory.id">
+                    {{getCategory.menuCategoryName}}</option>
+
+                </select>
+
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus1===true}">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-search"></i></span>
+                </div>
+                <input type="text" placeholder="Search..." class="form-control" (focus)="focus1=true"
+                  (blur)="focus1=false" [(ngModel)]="search" [ngModelOptions]="{standalone: true}"
+                  (keyup)="onKeyUp($event)" />
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <button class="btn btn-primary btn-round btn-block m-0" (click)="onAdd()">เพิ่มเมนู</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+
+    <div class="col-md-12">
+      <div class="card">
+
+        <div class="card-header">
+
+          <div class="row">
+            <div class="col-md-6">
+
+              <h5 class="card-title">รายการเมนู</h5>
+            </div>
+            <div class="col-md-6">
+
+              <button type="button" class="btn btn-warning float-right mt-0 ml-2" (click)="showChildModalImport()">
+                Import
+              </button>
+              <button type="button" class="btn btn-info  float-right mt-0 ml-2" (click)="exportExcel()">
+                Export
+              </button>
+
+
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+
+          <div class="">
+            <table class="table table-hover" id="excel-table">
+
+              <thead class="text-primary">
+                <tr>
+                  <th scope="col" class="text-center" style="width: 5%;">ลำดับที่</th>
+                  <th>ชื่อเมนู</th>
+                  <th>รหัสเมนู</th>
+                  <th>ประเภทเมนู</th>
+                  <th>รายละเอียด</th>
+                  <th>Status</th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr
+                  *ngFor="let getMenu of getMenu | paginate: {id: 'pagination',itemsPerPage: pageSize, currentPage: page,totalItems: count } ;let i =index;">
+                  <td class="">
+                    <div class="text-center">
+                      {{(page-1) * pageSize + i + 1}}
+                    </div>
+                  </td>
+                  <td class="text-primary">
+
+                    <div class="img-container">
+
+                      <span style="font-weight: bold;" class="text-primary"> <b>{{getMenu.menuName}}</b></span>
+                    </div>
+                  </td>
+                  <td>{{getMenu.menuCode}}</td>
+                  <td>{{getMenu.menuCategory.menuCategoryName}}</td>
+                  <td>{{getMenu.description}}</td>
+                  <td>
+                    <mat-slide-toggle [checked]="getMenu.status"
+                      (change)="onChangeStatus($event,getMenu.id)"></mat-slide-toggle>
+                  </td>
+                  <td class="text-center">
+
+
+                    <button mat-raised-button type="button" matTooltip="Edit" [matTooltipPosition]="'above'"
+                      class="btn btn-success btn-sm btn-link  btn-icon" (click)="onDetail(getMenu.id)">
+                      <i class="material-icons">edit</i>
+                    </button>
+                    <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'"
+                      class="btn btn-danger btn-sm btn-link btn-icon" (click)="onDelete(getMenu.id)">
+                      <i class="material-icons">close</i>
+                    </button>
+
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+          <div class="row mt-2">
+
+            <div class="col-md-12 text-center">
+              <pagination-controls class="pageData" id="pagination" previousLabel="Prev" nextLabel="Next"
+                [responsive]="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="modal fade" bsModal #staticModalImport="bs-modal" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-static-name" class="modal-title pull-left card-title text-primary mt-0">Import Data</h4>
+        <button type="button" class="close" aria-label="Close" (click)="hideChildModalImport()">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-9">
+
+            <div class="form-group form-file-upload form-file-simple">
+              <input class="form-control inputFileVisible " placeholder="Choose File" type="text"
+                [(ngModel)]="fileName">
+              <input class="inputFileHidden" type="file" (change)="selectFile($event)"
+                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+            </div>
+
+          </div>
+
+          <div class="col-3">
+            <button class="btn btn-success mt-0 btn-round btn-block" [disabled]="!selectedFiles" (click)="upload()">
+              Upload
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="currentFile" class="progress my-3">
+          <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+            attr.aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"
+            [ngStyle]="{ width: progress + '%' }">
+            {{ progress }}%
+          </div>
+        </div>
+        <div *ngIf="message" class="alert alert-danger" role="alert">{{ message }}</div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

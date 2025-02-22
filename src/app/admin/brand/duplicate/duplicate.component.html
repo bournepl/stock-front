@@ -1,0 +1,55 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title"> Duplicate</h5>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="duplicateForm">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label>คัดลอกข้อมูลจากสาขา</label>
+                  <select class="form-control" (change)="onItemSelect($event)" formControlName="branch1">
+                    <option value="">สาขา</option>
+                    <option *ngFor="let item of getBranch" value="{{item.id}}">{{item.branchName}}
+                    </option>
+
+                  </select>
+                </div>
+              </div>
+              <div class="col-2 align-self-center text-center">
+
+                <i style="font-size: 40px;" class="material-icons text-muted">arrow_forward</i>
+
+              </div>
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label>ไปยังสาขา</label>
+                  <select class="form-control" (change)="onItemSelect2($event)" formControlName="branch2">
+                    <option value="">สาขา</option>
+                    <option *ngFor="let item of getBranch" value="{{item.id}}">{{item.branchName}}
+                    </option>
+
+                  </select>
+                </div>
+              </div>
+
+            </div>
+          </form>
+          <div class="row">
+
+            <div class="col-md-12 text-right">
+              <button class="btn btn-primary btn-round  m-0" (click)="onConfirm()">ยืนยันข้อมูล</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

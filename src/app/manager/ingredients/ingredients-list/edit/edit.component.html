@@ -1,0 +1,198 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="title">รูปวัตถุดิบ</h5>
+        </div>
+        <div class="card-body m-2">
+          <div class="row justify-content-center">
+            <div class="col-md-12">
+              <label class="hoverable" for="customFile">
+                <img alt="User Pic" [src]="url ? url : imageToShow" class="img-upload" />
+                <div class="hover-text" *ngIf="!url">
+                  <i class="material-icons mdi-file-upload">upload_file</i>
+                </div>
+
+                <div class="hover-filename" *ngIf="url">
+                  <div class="row justify-content-center">
+                    <div class="col-12 text-center">
+                      <span class="filename">
+                        <b>{{ fileName }}</b>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="row justify-content-center">
+                    <div class="col-12 text-center mb-2">
+                      <span class="dropDrag">Drag and drop or click to replace</span>
+                    </div>
+                    <div class="col-md-12 text-center">
+                      <label class="hover-remove text-center" *ngIf="url" (click)="deleteImage($event)">
+                        <div><i class="material-icons">delete</i></div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </label>
+              <input type="file" id="customFile" accept="image/*" (change)="selectFile($event)" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h5 class="title">Barcode</h5>
+        </div>
+        <div class="card-body m-2">
+          <div style="text-align:center" *ngIf="getIngredients">
+            <ngx-barcode6 [bc-format]="'CODE128'" [bc-value]="getIngredients.barCodeNumber" [bc-display-value]="true">
+            </ngx-barcode6>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="title">แก้ไขวัตถุดิบ</h5>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="dataForm" (ngSubmit)="create()">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['category'].touched && f['category'].errors, 'has-success': f['category'].valid }">
+                  <label>หมวดหมู่วัตถุดิบ</label>
+                  <select class="form-control" formControlName="category" (change)="onChangeCategory($event.target)">
+
+                    <option *ngFor="let getCategory of getCategory" [value]="getCategory.id">
+                      {{getCategory.ingredientCategoryName}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['ingredientName'].touched && f['ingredientName'].errors, 'has-success': f['ingredientName'].valid }">
+                  <label>ชื่อวัตถุดิบ</label>
+                  <input type="text" class="form-control" formControlName="ingredientName">
+                </div>
+              </div>
+
+              <div class="col-md-6 ">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['brand'].touched && f['brand'].errors, 'has-success': f['brand'].valid }">
+                  <label>ยี่ห้อ</label>
+                  <input type="text" class="form-control" formControlName="brand">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6  ">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['price'].touched && f['price'].errors, 'has-success': f['price'].valid }">
+                  <label>ราคา</label>
+                  <input type="text" class="form-control" formControlName="price">
+                </div>
+              </div>
+              <div class="col-md-6  ">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['purchaseUnit'].touched && f['purchaseUnit'].errors, 'has-success': f['purchaseUnit'].valid }">
+                  <label>หน่วยซื้อเข้า</label>
+                  <angular2-multiselect class="form-control" [data]="dropdownList" [settings]="dropdownSettings"
+                    formControlName="purchaseUnit"></angular2-multiselect>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['stockAmount'].touched && f['stockAmount'].errors, 'has-success': f['stockAmount'].valid }">
+                  <label>ปริมาณหน่วยนับสต๊อก</label>
+                  <input type="text" class="form-control" formControlName="stockAmount">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['stockUnit'].touched && f['stockUnit'].errors, 'has-success': f['stockUnit'].valid }">
+                  <label>หน่วยนับสต๊อก</label>
+                  <angular2-multiselect class="form-control" [data]="dropdownList" [settings]="dropdownSettings"
+                    formControlName="stockUnit"></angular2-multiselect>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['useAmount'].touched && f['useAmount'].errors, 'has-success': f['useAmount'].valid }">
+                  <label>ปริมาณหน่วยใช้</label>
+                  <input type="text" class="form-control" formControlName="useAmount">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['useUnit'].touched && f['useUnit'].errors, 'has-success': f['useUnit'].valid }">
+                  <label>หน่วยใช้</label>
+                  <angular2-multiselect class="form-control" [data]="dropdownList" [settings]="dropdownSettings"
+                    formControlName="useUnit"></angular2-multiselect>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['safetyStockMax'].touched && f['safetyStockMax'].errors, 'has-success': f['safetyStockMax'].valid }">
+                  <label>นโยบายเก็บสูงสุดในคลัง (วัน) *</label>
+                  <input type="text" class="form-control" formControlName="safetyStockMax">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['safetyStockMin'].touched && f['safetyStockMin'].errors, 'has-success': f['safetyStockMin'].valid }">
+                  <label>นโยบายการเก็บ Safety Stock (วัน) *</label>
+                  <input type="text" class="form-control" formControlName="safetyStockMin">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['leadtime'].touched && f['leadtime'].errors, 'has-success': f['leadtime'].valid }">
+                  <label>ระยะเวลาจัดส่ง (วัน) (Leadtime) *</label>
+                  <input type="text" class="form-control" formControlName="leadtime">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['average'].touched && f['average'].errors, 'has-success': f['average'].valid }">
+                  <label>ระยะเวลาคำนวนค่าเฉลี่ยขาย (วัน) *</label>
+                  <input type="text" class="form-control" formControlName="average">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['description'].touched && f['description'].errors, 'has-success': f['description'].valid }">
+                  <label>รายละเอียด</label>
+                  <textarea rows="4" cols="80" class="form-control" formControlName="description"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <div class="update">
+                  <button class="btn  btn-gray mr-2" type="button" (click)="onBack()"><span>ยกเลิก</span></button>
+                  <button class="btn btn-success" type="submit"><span>ยืนยัน</span></button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

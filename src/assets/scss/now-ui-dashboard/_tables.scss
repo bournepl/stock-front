@@ -1,0 +1,204 @@
+.table {
+  margin-bottom: 0px;
+
+  .img-wrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+
+  .img-row {
+    max-width: 70px;
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+  }
+
+  .form-check {
+    margin: 0;
+
+    & label .form-check-sign::before,
+    & label .form-check-sign::after {
+      top: -17px;
+      left: 4px;
+    }
+  }
+
+  .btn {
+    margin: 0;
+  }
+
+  small,
+  .small {
+    font-weight: 300;
+  }
+
+  .card-tasks .card-body & {
+    margin-bottom: 0;
+
+    >thead>tr>th,
+    >tbody>tr>th,
+    >tfoot>tr>th,
+    >thead>tr>td,
+    >tbody>tr>td,
+    >tfoot>tr>td {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  >thead>tr>th {
+    border-bottom-width: 1px;
+    font-size: 14px;
+    font-weight: $font-weight-light;
+    border: 0;
+    background-color: $smoke-bg;
+  }
+
+  td {
+
+    font-size: 13px !important;
+
+  }
+
+  .radio,
+  .checkbox {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+    width: 15px;
+
+    .icons {
+      position: relative;
+    }
+
+    label {
+
+      &:after,
+      &:before {
+        top: -17px;
+        left: -3px;
+      }
+    }
+  }
+
+  >thead>tr>th,
+  >tbody>tr>th,
+  >tfoot>tr>th,
+  >thead>tr>td,
+  >tbody>tr>td,
+  >tfoot>tr>td {
+    padding: 12px 7px;
+    vertical-align: middle;
+
+  }
+
+  >thead>tr>th {
+    color: $dark-gray !important;
+  }
+
+  .th-description {
+    max-width: 150px;
+  }
+
+  .td-price {
+    font-size: 26px;
+    font-weight: $font-weight-light;
+    margin-top: 5px;
+    position: relative;
+    top: 4px;
+    text-align: right;
+  }
+
+  .td-total {
+    font-weight: $font-weight-bold;
+    font-size: $font-size-h5;
+    padding-top: 20px;
+    text-align: right;
+  }
+
+  .td-actions .btn {
+    margin: 0px;
+  }
+
+  >tbody>tr {
+    position: relative;
+  }
+}
+
+.table-shopping {
+  >thead>tr>th {
+    color: $dark-gray;
+    font-size: $font-size-h6;
+
+  }
+
+  >tbody>tr>td {
+    font-size: $font-paragraph;
+
+    b {
+      display: block;
+      margin-bottom: 5px;
+    }
+  }
+
+  .td-name {
+    font-weight: $font-weight-normal !important;
+    font-size: 1.4em !important;
+
+    small {
+      color: $dark-gray !important;
+      font-size: 12px !important;
+      font-weight: $font-weight-light !important;
+    }
+  }
+
+  .td-number {
+    font-weight: $font-weight-light !important;
+    font-size: 1.4em !important;
+  }
+
+  .td-name {
+    min-width: 200px !important;
+  }
+
+  .td-number {
+    text-align: right !important;
+    min-width: 170px !important;
+
+    small {
+      margin-right: 3px !important;
+    }
+  }
+
+  .img-container {
+    width: 120px;
+    max-height: 160px;
+    overflow: hidden;
+    display: block;
+
+    img {
+      width: 100%;
+    }
+  }
+}
+
+.table-responsive {
+  overflow: scroll;
+  padding-bottom: 0px;
+
+}
+
+#tables .table-responsive {
+  margin-bottom: 10px;
+}
+
+.table thead th {
+  border-bottom: none;
+}
+
+.table th {
+  border-top: none;
+}

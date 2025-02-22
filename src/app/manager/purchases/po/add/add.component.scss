@@ -1,0 +1,28 @@
+.modal-dialog {
+  max-width: 70% !important;
+  width: 70% !important;
+}
+
+.pageData ::ng-deep .ngx-pagination .current {
+  background: #c4974f;
+  border-radius: 50%;
+  color: #a72f00;
+}
+
+.card-product {
+  border: 2px solid #fff;
+}
+
+.isChecked {
+  border: 2px solid #c4974f;
+
+}
+
+.checked {
+  pointer-events: none;
+  background-color: #f7f7f7;
+}
+
+.isChecked .selection {
+  opacity: 1;
+}

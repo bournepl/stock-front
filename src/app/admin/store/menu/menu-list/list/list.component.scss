@@ -1,0 +1,11 @@
+.modal-dialog {
+  max-width: 50% !important;
+  width: 50% !important;
+}
+
+.pageData ::ng-deep .ngx-pagination .current {
+  background: #c4974f;
+  border-radius: 50%;
+  color: #a72f00;
+  margin-top: 15px;
+}

@@ -1,0 +1,208 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+
+  <div class="row" *ngIf="getUser">
+    <div class="col-lg-4">
+
+      <div class="card">
+
+        <div class="card-body">
+          <div class="row justify-content-center">
+            <div class="col-4 text-center">
+              <img class="img-account mb-2" src="assets/img/account.png" alt="...">
+
+            </div>
+
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-12 text-center">
+              <a>
+                <h5 class="title">{{getUser.name}}</h5>
+              </a>
+              <a>
+                <h6 class="title" class="text-purple">super admin</h6>
+              </a>
+            </div>
+
+          </div>
+
+          <hr>
+          <div class="row">
+            <div class="col-5">
+              <label class="text-title">ชื่อจริง-สกุล</label>
+            </div>
+            <div class="col-7">
+              <label class="text-dark">{{getUser.name}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5">
+              <label class="text-title">อีเมล</label>
+            </div>
+            <div class="col-7">
+              <label class="text-dark">{{getUser.email}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5">
+              <label class="text-title">เบอร์โทร</label>
+            </div>
+            <div class="col-7">
+              <label class="text-dark">{{getUser.phone}}</label>
+            </div>
+          </div>
+
+
+
+
+          <hr>
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'"
+                (click)="onDelete(getUser.id)" class="btn btn-danger btn-link  ">
+                <i class="material-icons">close</i><span class="text-danger ml-2">ลบข้อมูล</span>
+              </button>
+
+            </div>
+          </div>
+
+
+        </div>
+
+
+
+      </div>
+
+    </div>
+    <div class="col-lg-8 grid-margin stretch-card">
+
+
+      <div class="card">
+
+        <div class="card-body">
+          <div class="nav-tabs-navigation mb-3">
+            <div class="nav-tabs-wrapper">
+
+              <ul class="nav nav-tabs" data-tabs="tabs">
+                <li class="nav-item">
+                  <a mat-button class="nav-link active" href="#profile" data-toggle="tab">
+                    ข้อมูลทั่วไป
+                    <div class="ripple-container"></div>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a mat-button class="nav-link" href="#messages" data-toggle="tab">
+                    รหัสผ่าน
+                    <div class="ripple-container"></div>
+                  </a>
+                </li>
+
+              </ul>
+            </div>
+          </div>
+          <div class="tab-content">
+            <div class="tab-pane active" id="profile">
+              <form [formGroup]="userProfileForm" (ngSubmit)="onUpdateUser()">
+
+                <div class="row">
+
+                  <div class="col-md-12">
+                    <div class="form-group"
+                      [ngClass]="{ 'has-danger': f['email'].touched && f['email'].errors, 'has-success': f['email'].valid }">
+                      <label for="email">อีเมล</label><span class="text-mini text-danger"> *ใช้สำหรับ Login
+                        เข้าสู่ระบบ</span>
+                      <input type="text" class="form-control" id="email" formControlName="email">
+                    </div>
+                  </div>
+
+                </div>
+                <div class="row">
+
+
+
+                  <div class="col-md-12">
+                    <div class="form-group"
+                      [ngClass]="{ 'has-danger': f['name'].touched && f['name'].errors, 'has-success': f['name'].valid }">
+                      <label for="name"> ชื่อจริง-สกุล</label>
+                      <input type="text" class="form-control" id="name" formControlName="name">
+                    </div>
+                  </div>
+
+                </div>
+
+
+
+
+                <div class="row">
+
+                  <div class="col-md-12">
+                    <div class="form-group"
+                      [ngClass]="{ 'has-danger': f['phone'].touched && f['phone'].errors, 'has-success': f['phone'].valid }">
+                      <label for="phone">เบอร์โทรศัพท์</label>
+                      <input type="text" class="form-control" id="phone" formControlName="phone">
+                    </div>
+
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-md-12 text-right">
+                    <div class="update">
+                      <button class="btn  btn-gray mr-2" type="button" (click)="onBack()"><span>ย้อนกลับ</span></button>
+                      <button [disabled]="userProfileForm.invalid" class="btn btn-success"
+                        type="submit"><span>บันทึกข้อมูล</span></button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+
+            </div>
+            <div class="tab-pane" id="messages">
+              <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()">
+                <div class="row">
+
+                  <div class="col-md-12 ">
+                    <div class="form-group"
+                      [ngClass]="{ 'has-danger': fPass['password'].touched && fPass['password'].errors, 'has-success': fPass['password'].valid }">
+                      <label for="password">Password</label>
+                      <input type="text" class="form-control" id="password" formControlName="password">
+                    </div>
+                  </div>
+
+                </div>
+                <div class="row">
+                  <div class="col-md-12 ">
+                    <div class="form-group"
+                      [ngClass]="{ 'has-danger': fPass['confirmPassword'].touched && fPass['confirmPassword'].errors, 'has-success': fPass['confirmPassword'].valid }">
+                      <label for="confirmPassword">Confirm Password</label>
+                      <input type="text" class="form-control" id="confirmPassword" formControlName="confirmPassword">
+                    </div>
+
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 text-right">
+                    <div class="update">
+                      <button type="button" class="btn btn-gray mr-2" (click)="onBack()"><span>ย้อนกลับ</span></button>
+                      <button [disabled]="passwordForm.invalid" class="btn btn-success"
+                        type="submit"><span>บันทึกข้อมูล</span></button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+
+          </div>
+        </div>
+
+
+      </div>
+
+
+
+    </div>
+  </div>
+</div>

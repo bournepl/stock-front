@@ -1,0 +1,119 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title"> Filter</h5>
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus1===true}">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-search"></i></span>
+                </div>
+                <input type="text" placeholder="Search..." class="form-control" (focus)="focus1=true"
+                  (blur)="focus1=false" [(ngModel)]="title" [ngModelOptions]="{standalone: true}"
+                  (keyup)="onKeyUp($event)" />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <select class="form-control  " (change)="searchBrand($event)">
+                  <option value="">แบรนด์</option>
+                  <option *ngFor="let item of getCompany" value="{{item.uniqueKey}}">{{item.companyName}}
+                  </option>
+
+                </select>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+
+    <div class="col-md-12">
+      <div class="card">
+
+        <div class="card-header">
+          <h4 class="card-title">ประวัติการการเข้าใช้งาน</h4>
+        </div>
+
+        <div class="card-body">
+
+          <div class="">
+            <table class="table table-hover">
+
+              <thead class="text-primary">
+                <tr>
+                  <th>ชื่อผู้ใช้งาน</th>
+                  <th>ชื่อจริง-สกุล</th>
+                  <th>เบอร์โทร</th>
+                  <th>ชื่อแบรนด์</th>
+                  <th>ชื่อสาขา</th>
+                  <th>วันที่เข้าใช้งาน</th>
+
+                </tr>
+              </thead>
+
+
+              <tbody>
+                <tr
+                  *ngFor="let getUser of users | paginate: {id: 'pagination',itemsPerPage: pageSize, currentPage: page,totalItems: count };let i =index;">
+
+                  <td class="text-primary">
+
+                    <a class="text-primary text-bold">{{getUser.user.email}}</a>
+
+                  </td>
+                  <td> {{getUser.user.name}}</td>
+                  <td> {{getUser.user.phone}}</td>
+                  <td>
+                    <ng-container *ngFor="let item of getCompany">
+                      <div *ngIf="getUser.user.uniqueKey===item.uniqueKey">
+                        <span class="text-bold">
+                          {{item.companyName}}
+                        </span>
+                      </div>
+                    </ng-container>
+
+                  </td>
+                  <td>
+                    <ng-container *ngFor="let item of getAllBranch">
+                      <div *ngIf="getUser.user.branchId===item.id">
+                        <span>
+                          {{item.branchName}}
+                        </span>
+                      </div>
+                    </ng-container>
+
+                  </td>
+                  <td> {{getUser.date | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+          <div class="row mt-2">
+
+            <div class="col-md-12 text-center">
+              <pagination-controls class="pageData" id="pagination" previousLabel="Prev" nextLabel="Next"
+                [responsive]="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
