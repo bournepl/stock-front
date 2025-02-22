@@ -1,0 +1,247 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="title">แก้ไขรายการขาย</h5>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="row">
+              <div class="col-md-6  ">
+                <div class="form-group">
+                  <label>ช่องทางการขาย</label>
+                  <input type="text" class="form-control" placeholder="Company" value=" ">
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="text">ช่องทางการรับเงิน</label>
+                  <input class="form-control">
+                </div>
+              </div>
+              <div class="col-md-12 ">
+                <div class="form-group">
+                  <label>พนักงาน</label>
+                  <input type="text" class="form-control">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>รายละเอียด</label>
+                  <textarea rows="4" cols="80" class="form-control"
+                    placeholder="Here can be your description"> </textarea>
+                </div>
+              </div>
+            </div>
+
+
+
+
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+
+    <div class="col-md-12">
+      <div class="card">
+
+        <div class="card-header">
+
+          <div class="row">
+            <div class="col-md-6">
+
+              <h5 class="card-title">รายการเมนู
+
+              </h5>
+            </div>
+            <div class="col-md-6">
+              <button type="button" class="btn btn-primary float-right mt-0"
+                (click)="showChildModal()">เลือกเมนู</button>
+              <button type="button" class="btn btn-info float-right mt-0 mr-2">Import</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+
+          <div class="">
+            <table class="table table-hover">
+
+              <thead class="text-primary">
+                <tr>
+                  <th class="text-center" style="width: 10%;">ลำดับที่</th>
+                  <th>ชื่อเมนู</th>
+                  <th>รหัสเมนู</th>
+                  <th>ประเภทเมนู</th>
+                  <th>จำนวน</th>
+                  <th>หน่วย</th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td class="text-center"> 1</td>
+
+                  <td class="text-primary">
+
+                    <span style="font-weight: bold;" class="text-primary"> <b> Menu Name</b></span>
+
+                  </td>
+                  <td>Menu ID</td>
+                  <td>Category</td>
+                  <td>
+                    <div class="form-group">
+
+                      <input style="width: 100px;" type="text" class="form-control" placeholder="Company" value=" ">
+                    </div>
+                  </td>
+                  <td>Unit</td>
+
+                  <td class="text-center">
+
+                    <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'"
+                      class="btn btn-danger btn-sm btn-link btn-just-icon">
+                      <i class="material-icons">close</i>
+                    </button>
+
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+          <hr>
+          <div class="row">
+            <div class="col-md-12 text-right">
+              <div class="update">
+                <button class="btn  btn-gray mr-2" type="submit"><span>ยกเลิก</span></button>
+                <button class="btn btn-success" type="submit"><span>ยืนยัน</span></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<div class="modal fade" bsModal #staticModal="bs-modal" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="dialog-static-name" class="modal-title pull-left card-title text-primary mt-0">เลือกเมนู
+        </h5>
+        <button type="button" class="close" aria-label="Close" (click)="hideChildModal()">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row mb-2">
+          <div class="col-md-12">
+            <div class="input-group form-group-no-border input-lg">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-search"></i></span>
+              </div>
+              <input type="text" placeholder="Search..." class="form-control" />
+            </div>
+          </div>
+
+
+        </div>
+        <div class="">
+          <table class="table table-hover">
+
+            <thead class="text-primary">
+              <tr>
+                <th></th>
+
+
+                <th>ชื่อเมนู</th>
+                <th>รหัสเมนู</th>
+                <th>ประเภทเมนู</th>
+                <th>หน่วย</th>
+                <th>รายละเอียด</th>
+
+
+
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>
+                  <input type="checkbox">
+
+                </td>
+                <td>Menu Name</td>
+                <td>Menu Id</td>
+                <td>Menu Category</td>
+                <td>Unit</td>
+                <td>Desctiption</td>
+
+
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox">
+
+                </td>
+
+                <td>Menu Name</td>
+                <td>Menu Id</td>
+                <td>Menu Category</td>
+                <td>Unit</td>
+                <td>Desctiption</td>
+
+
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox">
+
+                </td>
+
+                <td>Menu Name</td>
+                <td>Menu Id</td>
+                <td>Menu Category</td>
+                <td>Unit</td>
+                <td>Desctiption</td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">ยืนยัน</button>
+        <button type="button" class="btn btn-gray" (click)="hideChildModal()">ยกเลิก</button>
+
+      </div>
+
+
+    </div>
+  </div>
+
+</div>

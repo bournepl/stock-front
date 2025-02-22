@@ -1,0 +1,150 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-4 d-flex">
+      <div class="card card-stats">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="statistics">
+                <div class="info">
+
+                  <h3 class="info-title mb-3 text-success">{{total|number:'1.2-2'}}</h3>
+                  <h6 class="stats-title">มูลค่าสต๊อก</h6>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8 d-flex">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title"> Filter</h5>
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+
+            <div class="col-md-6">
+              <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus===true}">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-search"></i></span>
+                </div>
+                <input type="text" placeholder="Search..." class="form-control" (focus)="focus=true"
+                  (blur)="focus=false" (keyup)="onKeyUp($event)" />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <select class="form-control  " [(ngModel)]="branchId" [ngModelOptions]="{standalone: true}"
+                  (change)="searchBranch($event)">
+                  <option value="">สาขา</option>
+                  <option *ngFor="let item of getBranch" value="{{item.id}}">{{item.branchName}}
+                  </option>
+
+                </select>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+
+    <div class="col-md-12">
+      <div class="card">
+
+        <div class="card-header">
+
+          <div class="row">
+            <div class="col-md-6">
+
+              <h5 class="card-title">Inventory Report</h5>
+            </div>
+            <div class="col-md-6">
+
+
+              <button type="button" class="btn btn-info  float-right mt-0 ml-2" (click)="exportExcel()">
+                Export
+              </button>
+
+
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+
+          <div class="">
+            <table class="table table-hover" id="excel-table">
+
+              <thead class="text-primary">
+                <tr>
+                  <th class="text-center" style="width: 10%;">ลำดับที่</th>
+                  <th>ชื่อวัตถุดิบ</th>
+                  <th>ชื่อหมวดหมู่</th>
+                  <th>จำนวน</th>
+                  <th>หน่วยนับสต๊อก</th>
+                  <th> ปริมาณ</th>
+                  <th> หน่วยใช้</th>
+                  <th> มูลค่าสินค้าในสต๊อก</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr
+                  *ngFor="let item of getIngredients | paginate: {id: 'pagination',itemsPerPage: pageSize, currentPage: page,totalItems: count };let i =index;">
+
+                  <td class="text-center"> {{(page-1) * pageSize + i + 1}}</td>
+                  <td class="text-primary">
+
+                    <span class="text-primary text-bold"> {{item.ingredientName}}</span>
+
+                  </td>
+                  <td>{{item.category.ingredientCategoryName}}</td>
+                  <td>{{item.quantity}} </td>
+                  <td>{{item.stockUnit}}</td>
+                  <td> {{item.amount}}</td>
+                  <td>{{item.useUnit}}</td>
+                  <td>{{item.pricePerUnit | number:'1.2-2'}}</td>
+
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+          <hr>
+          <div class="row mt-2 ">
+
+            <div class="col-md-6 align-self-center">
+              <select class="form-control float-right" style="width: 100px;" [(ngModel)]="pageSize"
+                (change)="onPageChange($event)">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
+                <option value="500">500</option>
+                <option value="1000">1000</option>
+              </select>
+              <span class="float-right mt-1 mr-3 text-gray">Item Per Page : </span>
+
+            </div>
+            <div class="col-md-6 ">
+              <pagination-controls class="pageData " id="pagination" previousLabel="Prev" nextLabel="Next"
+                [responsive]="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

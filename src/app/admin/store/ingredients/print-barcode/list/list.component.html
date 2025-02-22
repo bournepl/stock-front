@@ -1,0 +1,233 @@
+<div class="panel-header panel-header-sm">
+</div>
+
+<div class="main-content">
+
+  <div class="row">
+    <div class="col-md-12">
+
+
+      <div class="row">
+        <div class="col-md-12">
+
+          <div class="card">
+            <div class="card-header ">
+              <div class="row">
+                <div class="col-md-6">
+
+                  <h4 class="card-title">รายการวัตถุดิบ</h4>
+                </div>
+                <div class="col-md-6">
+
+                  <button type="button" class="btn btn-primary float-right mt-2  btn-round" (click)="showChildModal()">
+                    ค้นหาวัตถุดิบ
+                  </button>
+
+
+                </div>
+              </div>
+
+            </div>
+            <hr>
+            <div class="card-body ">
+
+              <div class="row mb-3 mt-2">
+                <div class="col-md-6">
+
+                  <span class="text-primary pt-1 pb-1 pl-3 pr-3 mr-3"
+                    style="background-color: #f5f5f5; border-radius: 10px; font-weight: bold;">รายการวัตถุดิบ :
+                    {{totalItem}} รายการ</span>
+                  <span class="text-primary pt-1 pb-1 pl-3 pr-3"
+                    style="background-color: #f5f5f5; border-radius: 10px; font-weight: bold;">จำนวนทั้งหมด :
+                    {{totalQuantity}}</span>
+                </div>
+
+
+                <div class="col-md-6 text-right">
+                  <span class="text-danger pt-1 pb-1 pl-3 pr-3"
+                    style="background-color: #fff4f4; border-radius: 10px; font-weight: bold; cursor: pointer;"
+                    (click)="onRemoveAll()">ลบวัตถุดิบทั้งหมด</span>
+
+                </div>
+
+              </div>
+
+
+              <div class="">
+                <table class="table">
+
+                  <thead class="text-primary">
+                    <tr>
+                      <th class="text-center" style="width: 5%;">ลำดับที่</th>
+                      <th>ชื่อวัตถุดิบ</th>
+                      <th>ชื่อหมวดหมู่</th>
+                      <th>หน่วย</th>
+                      <th style="width: 15%;">ราคา</th>
+
+                      <th class="text-right">Action</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr *ngFor="let item of cartItemList; let i = index">
+                      <td class="text-center"> {{i+1}}</td>
+
+                      <td class="text-primary">
+
+                        <span class="text-primary text-bold"> {{item.ingredientName}}</span>
+
+                      </td>
+                      <td> {{item.category.ingredientCategoryName}}</td>
+
+                      <td>{{item.useUnit}}</td>
+
+                      <td class="text-right">{{item.price| number:'1.2-2'}} </td>
+                      <td class="text-right">
+
+                        <button type="button" matTooltip="Remove" [matTooltipPosition]="'above'"
+                          class="btn btn-danger btn-sm btn-link btn-icon" (click)="onRemove(item)">
+                          <i class="material-icons">close</i>
+                        </button>
+                      </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+
+
+              <div class="row">
+
+                <div class="col-12">
+
+
+                  <button type="button" class="btn btn-success float-right mt-3" (click)="onPrint()">พิมพ์
+                    Barcode</button>
+                </div>
+
+
+              </div>
+
+            </div>
+
+
+
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+
+
+
+
+<div class="modal fade" bsModal [config]="{backdrop: 'static'}" #staticModal="bs-modal" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="dialog-static-name" class="modal-title pull-left card-title text-primary mt-0">เลือกวัตถุดิบ
+        </h5>
+        <button type="button" class="close" aria-label="Close" (click)="onCancel()">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row mb-2">
+          <div class="col-md-6">
+            <div class="form-group">
+              <select class="form-control" (change)="onChange($event)" [(ngModel)]="categoryId"
+                [ngModelOptions]="{standalone: true}">
+                <option value="">Category</option>
+                <option *ngFor="let getCategory of getCategory" [value]="getCategory.id">
+                  {{getCategory.ingredientCategoryName}}</option>
+
+              </select>
+
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus1===true}">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-search"></i></span>
+              </div>
+              <input type="text" placeholder="Search..." class="form-control" (focus)="focus1=true"
+                (blur)="focus1=false" [(ngModel)]="search" [ngModelOptions]="{standalone: true}"
+                (keyup)="onKeyUp($event)" />
+            </div>
+          </div>
+
+        </div>
+        <div class="">
+          <table class="table table-hover">
+
+            <thead class="text-primary">
+              <tr>
+                <th></th>
+                <th>รูปภาพ</th>
+                <th>ชื่อวัตถุดิบ</th>
+                <th>ชื่อหมวดหมู่</th>
+                <th>หน่วย</th>
+                <th>ราคา</th>
+
+
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr
+                *ngFor="let item of getIngredients | paginate: {id: 'pagination',itemsPerPage: pageSize, currentPage: page,totalItems: count }; let i =index;">
+                <td>
+                  <input type="checkbox" (change)="selectItem($event,item)" [checked]="item.checked">
+
+                </td>
+                <td class="text-dark">
+                  <div class="img-container">
+                    <img class="img-row"
+                      [src]="item.imageUrl == '' || item.imageUrl == null ? imageToShow : item.imageUrl" alt="image">
+
+                  </div>
+                </td>
+                <td class="text-primary">
+
+                  <span class="text-primary text-bold"> {{item.ingredientName}}</span>
+
+                </td>
+
+                <td> {{item.category.ingredientCategoryName}}</td>
+
+                <td>{{item.purchaseUnit}}</td>
+                <td>{{item.price | number:'1.2-2'}} </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+        <div class="row mt-3">
+
+          <div class="col-md-12 text-center">
+            <pagination-controls class="pageData" id="pagination" previousLabel="Prev" nextLabel="Next"
+              [responsive]="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success" (click)="onConfrim()">ยืนยัน</button>
+        <button type="button" class="btn btn-gray" (click)="onCancel()">ยกเลิก</button>
+
+      </div>
+
+
+    </div>
+  </div>
+
+</div>

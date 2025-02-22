@@ -1,0 +1,270 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="title">สร้างรายการขาย</h5>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="orderForm">
+            <div class="row">
+              <div class="col-md-6  ">
+                <div class="form-group">
+                  <label>ช่องทางการขาย *</label>
+                  <select class="form-control" formControlName="channelType" required>
+                    <option value="atstore">หน้าร้าน</option>
+                    <option value="takehome">กลับบ้าน</option>
+                    <option value="delivery">เดลิเวอรี่ </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="text">ช่องทางการรับเงิน *</label>
+                  <select class="form-control" formControlName="paymentType" required>
+                    <option value="เงินสด">เงินสด</option>
+                    <option value="เงินโอน">เงินโอน</option>
+                    <option value="เดลิเวอรี่">เดลิเวอรี่ </option>
+                    <option value="อื่นๆ">อื่นๆ </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-12 ">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['user'].touched && f['user'].errors, 'has-success': f['user'].valid }">
+                  <label>พนักงาน *</label>
+                  <select class="form-control" formControlName="user" (change)="onChangeUser($event.target)" required>
+
+                    <option *ngFor="let item of users" [value]="item.id">
+                      {{item.name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>หมายเหตุ</label>
+                  <textarea rows="4" cols="80" class="form-control" formControlName="description"> </textarea>
+                </div>
+              </div>
+            </div>
+
+
+
+
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+
+    <div class="col-md-12">
+      <div class="card">
+
+        <div class="card-header">
+
+          <div class="row">
+            <div class="col-md-6">
+
+              <h5 class="card-title">รายการเมนู
+
+              </h5>
+            </div>
+            <div class="col-md-6">
+              <button type="button" class="btn btn-primary float-right mt-0"
+                (click)="showChildModal()">เลือกเมนู</button>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+
+          <div class="">
+            <table class="table table-hover">
+
+              <thead class="text-primary">
+                <tr>
+                  <th class="text-center" style="width: 10%;">ลำดับที่</th>
+                  <th>ชื่อเมนู</th>
+                  <th>รหัสเมนู</th>
+                  <th>ประเภทเมนู</th>
+                  <th style="width: 15%;">จำนวน</th>
+
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let item of cartMenuList; let i =index;">
+                  <td class="text-center"> {{i+1}}</td>
+
+                  <td class="text-primary">
+
+                    <span style="font-weight: bold;" class="text-primary"> {{item.menuName}}</span>
+
+                  </td>
+                  <td>{{item.menuCode}}</td>
+                  <td>{{item.menuCategory.menuCategoryName}}</td>
+                  <td>
+                    <div class="form-group">
+
+                      <input min="1" type="number" class="form-control text-center" (focus)="focus=true"
+                        value="{{item.quantity}}" (blur)="focus=false" [(ngModel)]="item.quantity"
+                        (change)="onSearchChange(item,i)" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                  </td>
+
+
+                  <td class="text-center">
+
+                    <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'"
+                      class="btn btn-danger btn-sm btn-link btn-just-icon" (click)="onDelete(item)">
+                      <i class="material-icons">close</i>
+                    </button>
+
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+          <hr>
+          <div class="row">
+            <div class="col-md-12 text-right">
+              <div class="update">
+                <button class="btn  btn-gray btn-round mr-2" type="button"
+                  (click)="onBack()"><span>ยกเลิก</span></button>
+                <button class="btn btn-success btn-round" type="button"
+                  (click)="onConfirm()"><span>สร้างรายการขาย</span></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<div class="modal fade" bsModal #staticModal="bs-modal" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="dialog-static-name" class="modal-title pull-left card-title text-primary mt-0">เลือกเมนู
+        </h5>
+        <button type="button" class="close" aria-label="Close" (click)="hideChildModal()">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row mb-2">
+          <div class="col-md-6">
+            <div class="form-group">
+              <select class="form-control" (change)="onChange($event)" [(ngModel)]="categoryId"
+                [ngModelOptions]="{standalone: true}">
+                <option value="">Category</option>
+                <option *ngFor="let getCategory of getCategory" [value]="getCategory.id">
+                  {{getCategory.menuCategoryName}}</option>
+
+              </select>
+
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus1===true}">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-search"></i></span>
+              </div>
+              <input type="text" placeholder="Search..." class="form-control" (focus)="focus1=true"
+                (blur)="focus1=false" [(ngModel)]="search" [ngModelOptions]="{standalone: true}"
+                (keyup)="onKeyUp($event)" />
+            </div>
+          </div>
+
+
+        </div>
+        <div class="">
+          <table class="table table-hover">
+
+            <thead class="text-primary">
+              <tr>
+
+                <th>ชื่อเมนู</th>
+                <th>รหัสเมนู</th>
+                <th>ประเภทเมนู</th>
+                <th>รายละเอียด</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr
+                *ngFor="let getMenu of getMenu | paginate: {id: 'pagination',itemsPerPage: pageSize, currentPage: page,totalItems: count } ;let i =index;">
+                <td class="text-primary">
+
+                  <div class="img-container">
+
+                    <span style="font-weight: bold;" class="text-primary"> <b>{{getMenu.menuName}}</b></span>
+                  </div>
+                </td>
+                <td>{{getMenu.menuCode}}</td>
+                <td>{{getMenu.menuCategory.menuCategoryName}}</td>
+                <td>{{getMenu.description}}</td>
+                <td class="text-center">
+                  <button type="button" matTooltip="เลือก" [matTooltipPosition]="'above'" class="btn btn-success btn-sm"
+                    (click)="onAddProductToCart(getMenu)">
+                    เลือก
+                  </button>
+                </td>
+
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+        <div class="row mt-2 ">
+
+          <div class="col-md-6 align-self-center">
+            <select class="form-control float-right" style="width: 100px;" [(ngModel)]="pageSize"
+              (change)="onPageChange($event)">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="200">200</option>
+              <option value="500">500</option>
+              <option value="1000">1000</option>
+            </select>
+            <span class="float-right mt-1 mr-3 text-gray">Item Per Page : </span>
+
+          </div>
+          <div class="col-md-6 ">
+            <pagination-controls class="pageData " id="pagination" previousLabel="Prev" nextLabel="Next"
+              [responsive]="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+          </div>
+        </div>
+      </div>
+
+
+
+
+    </div>
+  </div>
+
+</div>

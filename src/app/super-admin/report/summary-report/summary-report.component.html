@@ -1,0 +1,129 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title"> Filter</h5>
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus1===true}">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-search"></i></span>
+                </div>
+                <input type="text" placeholder="Search..." class="form-control" (focus)="focus1=true"
+                  (blur)="focus1=false" />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <select class="form-control  " (change)="onChangeProvince($event)">
+                  <option [value]="-1">ทั้งหมด</option>
+                  <option *ngFor="let item of getProvince" value="{{item.id}}">{{item.name}}
+                  </option>
+
+                </select>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+
+    <div class="col-md-12">
+      <div class="card">
+
+        <div class="card-header">
+
+          <div class="row">
+            <div class="col-md-8">
+
+              <h5 class="card-title">Report</h5>
+            </div>
+            <div class="col-md-4">
+
+
+              <button type="button" class="btn btn-outline-danger  float-right mt-0 ml-2" (click)="exportExcel()">
+                Export
+              </button>
+
+
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+
+          <div class="">
+            <table class="table table-hover" id="excel-table">
+
+              <thead class="text-gray">
+                <tr>
+                  <th scope="col" class="text-center" style="width: 10%;">ลำดับที่</th>
+                  <th>ชื่อวัตถุดิบ</th>
+                  <th>จำนวนร้าน</th>
+                  <th>Brand</th>
+                  <th>Branch</th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let getData of getData   ;let i =index;">
+                <tr>
+
+                  <td class="">
+                    <div class="text-center">
+                      {{ i + 1}}
+                    </div>
+                  </td>
+                  <td> <span style="font-weight: bold;" class="text-dark"><b>
+                        {{getData.name}}</b></span></td>
+                  <td> <span style="font-weight: bold;" class="text-primary"><b>
+                        {{getData.value}}</b></span></td>
+                  <td>
+
+                    <div class="row" *ngFor="let item of getData.brand">
+
+                      <div class="col-122">
+                        <span class="text-dark">
+                          {{item}}
+                        </span>
+                      </div>
+
+                    </div>
+
+                  </td>
+                  <td>
+
+                    <div class="row" *ngFor="let item of getData.branch">
+
+                      <div class="col-122">
+                        <span class="text-dark">
+                          {{item}}
+                        </span>
+                      </div>
+
+                    </div>
+
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>

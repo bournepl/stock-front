@@ -1,0 +1,81 @@
+<div class="logo">
+  <a class="simple-text text-center">
+    <img class="image-logo mb-3" src="assets/img/final.png" alt="logo">
+  </a>
+</div>
+<div class="sidebar-wrapper" *ngIf="getUser">
+  <ul class="nav">
+
+    <li routerLinkActive="active" class="nav-item"><!----><a data-toggle="collapse" class="nav-link collapsed"
+        href="#report" aria-expanded="false"><i class="material-icons">list_alt</i>
+        <p>Report<b class="caret"></b></p>
+      </a><!---->
+      <div class="collapse" id="report">
+        <ul class="nav mt-2">
+
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" [routerLink]="'/super-admin/report/summary-report'">
+              <span class="sidebar-normal ml-5">Summary Report</span>
+            </a>
+          </li>
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" [routerLink]="'/super-admin/report/user-report'">
+              <span class="sidebar-normal ml-5">User Report</span>
+            </a>
+          </li>
+
+
+        </ul>
+      </div><!---->
+    </li>
+
+    <li routerLinkActive="active" class="nav-item"><!----><a data-toggle="collapse" class="nav-link collapsed"
+        href="#brand" aria-expanded="false"><i class="material-icons">add_home</i>
+        <p>Brand<b class="caret"></b></p>
+      </a><!---->
+      <div class="collapse" id="brand">
+        <ul class="nav mt-2">
+
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" [routerLink]="'/super-admin/brand/brand'">
+              <span class="sidebar-normal ml-5">แบรนด์</span>
+            </a>
+          </li>
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" [routerLink]="'/super-admin/brand/user'">
+              <span class="sidebar-normal ml-5">ผู้ใช้งานระบบ</span>
+            </a>
+          </li>
+
+
+        </ul>
+      </div><!---->
+    </li>
+
+    <li routerLinkActive="active" class="nav-item">
+      <a class="nav-link" [routerLink]="'/super-admin/user'">
+        <i class="material-icons">person</i>
+        <p>User</p>
+      </a>
+    </li>
+
+    <li *ngIf="getUser.email=='hero.superadmin@gmail.com'" routerLinkActive="active" class="nav-item"><!----><a
+        data-toggle="collapse" class="nav-link collapsed" href="#setting" aria-expanded="false"><i
+          class="material-icons">list_alt</i>
+        <p>Setting<b class="caret"></b></p>
+      </a><!---->
+      <div class="collapse" id="setting">
+        <ul class="nav mt-2">
+
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" [routerLink]="'/super-admin/setting/user'">
+              <span class="sidebar-normal ml-5">ช้อมูลส่วนตัว</span>
+            </a>
+          </li>
+
+        </ul>
+      </div><!---->
+    </li>
+  </ul>
+
+</div>

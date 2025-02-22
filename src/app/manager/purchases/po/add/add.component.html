@@ -1,0 +1,641 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+
+          <h5 class="card-title">สร้างใบสั่งซื้อ (PO)
+
+          </h5>
+
+        </div>
+
+        <div class="card-body" *ngIf="getOrderDetail">
+          <div class="row mb-2">
+
+            <div class="col-2">
+              <span class="text-gray">อ้างอิง: </span>
+            </div>
+            <div class="col-10">
+              <span class="text-primary text-bold">{{getOrderDetail.prId}} </span>
+            </div>
+
+          </div>
+          <div class="row mb-2">
+
+            <div class="col-2">
+              <span class="text-gray">วันที่ขอซื้อ: </span>
+            </div>
+            <div class="col-10">
+              <span class="text-dark">{{getOrderDetail.dateRequest}} </span>
+            </div>
+
+          </div>
+          <hr>
+
+          <div class="row">
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>ประเภทภาษี</label>
+                <select [value]="selectedVat" (change)="onChangeVat($event)" class="form-control">
+                  <option value="ไม่มีภาษี">ไม่มีภาษี</option>
+                  <option value="รวมภาษีมูลค่าเพิ่ม">รวมภาษีมูลค่าเพิ่ม 7%</option>
+                  <option value="แยกภาษีมูลค่าเพิ่ม">แยกภาษีมูลค่าเพิ่ม 7%</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6  ">
+              <div class="form-group">
+                <label for="text">ค่าจัดส่ง</label>
+                <input type="number" class="form-control" [(ngModel)]="shipping" (change)="onChangeShipping()">
+              </div>
+            </div>
+            <div class="col-md-6 ">
+              <div class="form-group">
+                <label>ส่วนลดท้ายบิล</label>
+                <input type="number" class="form-control" [(ngModel)]="discount" (change)="onChangeDiscount($event)">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>หมายเหตุ</label>
+                <textarea rows="4" cols="80" class="form-control" [(ngModel)]="description"></textarea>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+
+        <div class="card-header">
+
+          <div class="row">
+            <div class="col-md-6">
+              <h5 class="card-title">ผู้จัดจำหน่าย
+
+              </h5>
+            </div>
+            <div class="col-md-6">
+              <button type="button" class="btn btn-primary float-right mt-0 btn-round"
+                (click)="showChildModalSupplier()">เลือกผู้จัดจำหน่าย</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+
+          <div class="row " *ngIf="getSupplierById">
+            <div class="col-md-12">
+
+              <div class="row">
+
+                <div class="col-md-12">
+
+                  <div class="row mb-2">
+
+                    <div class="col-5">
+                      <span class="text-gray">ชื่อผู้จัดจำหน่าย: </span>
+                    </div>
+                    <div class="col-7">
+                      <span class="text-primary text-bold">{{getSupplierById.name}} </span>
+                    </div>
+
+                  </div>
+                  <div class="row mb-2">
+
+                    <div class="col-5">
+                      <span class="text-gray">เบอร์โทร: </span>
+                    </div>
+                    <div class="col-7">
+                      <span class="text-primary">{{getSupplierById.phone}} </span>
+                    </div>
+
+                  </div>
+                  <div class="row mb-2" *ngIf="getSupplierById.email">
+
+                    <div class="col-5">
+                      <span class="text-gray">อีเมล: </span>
+                    </div>
+                    <div class="col-7">
+                      <span class="text-primary">{{getSupplierById.email}} </span>
+                    </div>
+
+                  </div>
+                  <div class="row mb-2">
+
+                    <div class="col-5">
+                      <span class="text-gray">จังหวัด</span>
+                    </div>
+                    <div class="col-7">
+                      <span class="text-primary">{{getSupplierById.province.name}} </span>
+                    </div>
+
+                  </div>
+                  <div class="row mb-2">
+
+                    <div class="col-5">
+                      <span class="text-gray">ที่อยู่: </span>
+                    </div>
+                    <div class="col-7">
+                      <span class="text-primary">{{getSupplierById.address}} อำเภอ{{getSupplierById.district.name}}
+                        <br> จังหวัด{{getSupplierById.province.name}} {{getSupplierById.zipcode}}</span>
+                    </div>
+
+                  </div>
+                  <div class="row mb-2">
+
+                    <div class="col-5">
+                      <span class="text-gray">เลขผู้เสียภาษี: </span>
+                    </div>
+                    <div class="col-7">
+                      <span class="text-primary">{{getSupplierById.idNumber}} </span>
+                    </div>
+
+                  </div>
+                  <div class="row mb-2" *ngIf="getSupplierById.description">
+
+                    <div class="col-5">
+                      <span class="text-gray">รายละเอียด: </span>
+                    </div>
+                    <div class="col-7">
+                      <span class="text-primary">{{getSupplierById.description}} </span>
+                    </div>
+
+                  </div>
+
+
+                </div>
+
+
+
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+
+    <div class="col-md-12">
+      <div class="card">
+
+        <div class="card-header">
+
+          <div class="row">
+            <div class="col-md-6">
+
+              <h5 class="card-title">รายการวัตถุดิบ
+
+              </h5>
+            </div>
+            <div class="col-md-6">
+              <button type="button" class="btn btn-primary float-right mt-0"
+                (click)="showChildModalProduct()">เลือกวัตถุดิบ</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+
+          <div class="">
+            <table class="table">
+
+              <thead class="text-primary">
+                <tr>
+                  <th class="text-center" style="width: 5%;">ลำดับที่</th>
+                  <th>รูปภาพ</th>
+                  <th>ชื่อวัตถุดิบ</th>
+                  <th>ชื่อหมวดหมู่</th>
+                  <th style="width: 10%;">จำนวน</th>
+                  <th>หน่วย</th>
+                  <th class="text-center" style="width: 15%;">ราคา</th>
+                  <th class="text-right">ราคารวม</th>
+
+                  <th class="text-right">Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let item of cartItemList; let i = index">
+                  <td class="text-center"> {{i+1}}</td>
+                  <td class="text-dark">
+                    <div class="img-container">
+                      <img class="img-row"
+                        [src]="item.imageUrl == '' || item.imageUrl == null ? imageToShow : item.imageUrl" alt="image">
+
+                    </div>
+                  </td>
+                  <td class="text-primary">
+
+                    <span class="text-primary text-bold"> {{item.ingredientName}}</span>
+
+                  </td>
+                  <td> {{item.category.ingredientCategoryName}}</td>
+                  <td>
+                    {{item.quantityRequest}}
+                  </td>
+                  <td>{{item.purchaseUnit}}</td>
+                  <td>
+                    <div class="form-group">
+
+                      <input min="1" type="number" class="form-control text-center" (focus)="focus=true"
+                        value="{{item.price}}" (blur)="focus=false" [(ngModel)]="item.price"
+                        (change)="onSearchChange(item,i)" [ngModelOptions]="{standalone: true}" />
+                    </div>
+
+                  </td>
+                  <td class="text-right">{{item.price*item.quantityRequest| number:'1.2-2'}} </td>
+                  <td class="text-right">
+
+                    <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'"
+                      class="btn btn-danger btn-sm btn-link btn-icon" (click)="onRemove(item)">
+                      <i class="material-icons">close</i>
+                    </button>
+
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+          <hr>
+
+          <div class="row mt-3">
+
+            <div class="col-md-6">
+
+
+            </div>
+
+
+            <div class="col-md-6">
+
+              <div class="row mb-2">
+                <div class="col-6 text-left">
+                  <span class="text-muted">รวมเป็นเงิน</span>
+                </div>
+                <div class="col-6 text-right">
+                  <span class="text-dark ">{{total | number:'1.2-2'}}</span>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-6 text-left">
+                  <span class="text-muted">ค่าจัดส่ง</span>
+                </div>
+                <div class="col-6 text-right">
+                  <span class="text-dark ">{{shipping | number:'1.2-2'}}</span>
+                </div>
+              </div>
+
+              <div class="row mb-2">
+                <div class="col-6  text-left">
+                  <span class="text-muted">ส่วนลดท้ายบิล</span>
+                </div>
+                <div class="col-6 text-right">
+                  <span class="text-dark">-{{discountValue | number:'1.2-2'}}</span>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-6  text-left">
+                  <span class="text-muted">ราคาหลังหักส่วนลด</span>
+                </div>
+                <div class="col-6 text-right">
+                  <span class="text-dark">{{totalDiscount | number:'1.2-2'}}</span>
+                </div>
+              </div>
+
+
+              <div class="row mb-2">
+                <div class="col-6  text-left">
+                  <span class="text-muted">มูลค่ารวมก่อนภาษี </span>
+                </div>
+                <div class="col-6 text-right">
+                  <span class="text-dark">{{totalVat | number:'1.2-2'}}</span>
+                </div>
+              </div>
+
+              <div class="row mb-2">
+                <div class="col-6  text-left">
+                  <span class="text-muted">ภาษีมูลค่าเพิ่ม (7%) </span>
+                </div>
+                <div class="col-6 text-right">
+                  <span class="text-dark">{{vat | number:'1.2-2'}}</span>
+                </div>
+              </div>
+
+
+              <hr>
+
+              <div class="row mb-3">
+
+                <div class="col-6  text-left">
+                  <b><span style="font-weight: bold;" class="text-primary">จำนวนเงินรวมทั้งสิ้น</span></b>
+                </div>
+                <div class="col-6 text-right">
+                  <b><span style="font-weight: bold;" class="text-primary ">{{totalAll |
+                      number:'1.2-2'}}</span></b>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+
+                <div class="col-12">
+
+
+                  <button type="button" class="btn btn-success float-right mt-3"
+                    (click)="onCreate()">สร้างใบขอซื้อ</button>
+                  <button type="button" (click)="onBack()" class="btn btn-gray float-right mt-3 mr-2">ยกเลิก</button>
+                </div>
+
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+<div class="modal fade" bsModal #staticModalSupplier="bs-modal" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-static-name" class="modal-title pull-left card-title text-primary mt-0">เลือกผู้จัดจำหน่าย</h4>
+        <button type="button" class="close" aria-label="Close" (click)="hideChildModalSupplier()">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+
+        <div class="row mb-2">
+
+          <div class="col-md-12">
+            <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus1===true}">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-search"></i></span>
+              </div>
+              <input type="text" placeholder="Search..." class="form-control" (focus)="focus1=true"
+                (blur)="focus1=false" [(ngModel)]="title" [ngModelOptions]="{standalone: true}"
+                (keyup)="onKeyUp($event)" />
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="table-responsive">
+          <table class="table table-hover">
+
+            <thead>
+              <tr class="tr-header">
+
+                <th scope="col">ชื่อผู้จัดจำหน่าย</th>
+                <th scope="col">เบอร์โทร</th>
+                <th scope="col">รายละเอียด</th>
+                <th scope="col">อำเภอ</th>
+                <th scope="col">จังหวัด</th>
+                <th scope="col" class="text-center">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr
+                *ngFor="let item of getSupplier | paginate: {id: 'pagination',itemsPerPage: pageSize, currentPage: page,totalItems: count };let i =index;">
+
+                <td class="text-primary" data-label="ชื่อผู้จัดจำหน่าย">
+
+                  <div class="row">
+                    <div class="col-12 pr-0">
+                      <span style="font-weight: bold;" *ngIf="item.name">
+                        {{item.name}}</span>
+                    </div>
+                    <div class="col-12 pr-0" *ngIf="item.idNumber">
+                      <span class="badge badge-info mr-2" style=" font-weight: 500;">
+                        {{item.idNumber}}</span>
+                    </div>
+                  </div>
+
+
+                </td>
+                <td data-label="เบอร์โทร"> {{item.phone}}</td>
+
+
+                <td data-label="เบอร์โทร"> {{item.description}}</td>
+                <td data-label="อำเภอ"> {{item.district.name}}</td>
+                <td data-label="จังหวัด"> {{item.province.name}}</td>
+
+                <td class="text-center">
+                  <button type="button" matTooltip="เลือก" [matTooltipPosition]="'above'"
+                    class="btn btn-success btn-sm " (click)="onSelectSupplier(item.id)">
+                    เลือก
+                  </button>
+
+
+
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-md-12 text-center">
+            <pagination-controls class="pageData" id="pagination" previousLabel="Prev" nextLabel="Next"
+              [responsive]="true" (pageChange)="handlePageChangeSupplier($event)"></pagination-controls>
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+</div>
+
+
+
+<div class="modal fade" bsModal #staticModalProduct="bs-modal" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-static-name" class="modal-title pull-left card-title text-primary mt-0">เลือกสินค้า</h4>
+        <button type="button" class="close" aria-label="Close" (click)="hideChildModalProduct()">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="row mb-4">
+
+
+          <div class="col-md-1">
+            <span class="text-muted ml-3">รูปภาพ</span>
+          </div>
+          <div class="col-md-2">
+            <span class="text-muted ">ชื่อสินค้า</span>
+          </div>
+
+          <div class="col-md-2">
+            <span class="text-muted ">หมวดหมู่</span>
+          </div>
+          <div class="col-md-2 ">
+            <span class="text-muted "> จำนวน</span>
+          </div>
+          <div class="col-md-1">
+            <span class="text-muted "> หน่วย</span>
+          </div>
+
+          <div class="col-md-2 text-right">
+            <span class="text-muted "> ราคา</span>
+          </div>
+          <div class="col-md-2 text-right">
+            <span class="text-muted "> ราคารวม</span>
+          </div>
+        </div>
+        <div class="row mb-3" *ngFor="let product of getProductList ">
+          <div class="col-md-12">
+            <div class="card card-product mb-0"
+              [ngClass]="{'isChecked': product.checked ===  true,'checked': product.selectChecked ===  true}"
+              (click)="onSelectProduct(product)">
+
+
+              <div class="card-body">
+                <div class="row align-items-center">
+
+
+                  <div class="col-md-1 mb-2">
+                    <div class="row justify-content-center">
+
+                      <div class="col-6 col-md-12 ">
+                        <img class="image-product" [src]="product.imageUrl == '' ? imageToShow : product.imageUrl"
+                          alt="image">
+                      </div>
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="col-md-2">
+
+                    <div class="row">
+
+                      <div class="col-12">
+
+                        <span class="text-primary" style="font-weight: bold;"> {{product.ingredientName}}</span>
+                      </div>
+
+                    </div>
+
+                    <div class="row">
+
+                      <div class="col-12">
+                        <span class="text-warning" style="font-size: 12px;"><b>
+                            {{product.description}}</b></span>
+                      </div>
+
+                    </div>
+
+
+                  </div>
+                  <div class="col-md-2">
+                    <div class="row">
+                      <div class="col-12">
+
+                        <span class="text-muted "> {{product.category.ingredientCategoryName}}</span>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="col-md-2 ">
+                    <div class="row">
+                      <div class="col-12">
+                        <span style="font-size: 12px;" class="mobile-responsive"></span>
+                        <span class="text-muted "> {{product.quantityRequest}}</span>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="col-md-1">
+                    <div class="row">
+                      <div class="col-12 ">
+                        <span style="font-size: 12px;" class="mobile-responsive"></span>
+                        <span class="text-muted "> {{product.purchaseUnit}}</span>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="col-md-2 ">
+                    <div class="row">
+                      <div class="col-12 text-right">
+                        <span style="font-size: 12px;" class="mobile-responsive"></span>
+                        <span class="text-muted "> {{product.price| number:'1.2-2'}}</span>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="col-md-2 ">
+                    <div class="row">
+                      <div class="col-12 text-right">
+                        <span style="font-size: 12px;" class="mobile-responsive"></span>
+                        <span class="text-muted "> {{product.price*product.quantityRequest| number:'1.2-2'}}</span>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success" (click)="onConfrim()">ยืนยัน</button>
+        <button type="button" class="btn btn-gray" (click)="hideChildModalProduct()">ยกเลิก</button>
+
+      </div>
+
+
+    </div>
+  </div>
+
+</div>

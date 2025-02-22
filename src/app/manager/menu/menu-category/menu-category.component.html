@@ -1,0 +1,304 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title"> Filter</h5>
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+            <div class="col-md-10">
+              <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus1===true}">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-search"></i></span>
+                </div>
+                <input type="text" placeholder="Search..." class="form-control" (focus)="focus1=true"
+                  (blur)="focus1=false" (keyup)="onKeyUp($event)" />
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <button class="btn btn-primary btn-round btn-block m-0"
+                (click)="showChildModal()">เพิ่มประเภทเมนู</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+
+    <div class="col-md-12">
+      <div class="card">
+
+        <div class="card-header">
+
+          <div class="row">
+            <div class="col-md-6">
+
+              <h5 class="card-title">รายการประเภทเมนู</h5>
+            </div>
+            <div class="col-md-6">
+
+              <button type="button" class="btn btn-warning float-right mt-0 ml-2" (click)="showChildModalImport()">
+                Import
+              </button>
+              <button type="button" class="btn btn-info  float-right mt-0 ml-2">
+                Export
+              </button>
+
+
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+
+          <div class="">
+            <table class="table table-hover">
+
+              <thead class="text-primary">
+                <tr>
+                  <th class="text-center"> ลำดับที่</th>
+                  <th>ชื่อประเภทเมนู</th>
+                  <th>รหัสประเภทเมนู</th>
+                  <th>รายละเอียด</th>
+
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr
+                  *ngFor="let item of getCategory | paginate: {id: 'pagination',itemsPerPage: pageSize, currentPage: page,totalItems: count };let i =index;">
+                  <td class="">
+                    <div class="text-center">
+                      {{(page-1) * pageSize + i + 1}}
+                    </div>
+                  </td>
+                  <td class="text-primary">
+                    <div class="img-container">
+                      <span class="text-primary text-bold">{{item.menuCategoryName}}</span>
+                    </div>
+                  </td>
+                  <td> {{item.menuCategoryId}}</td>
+                  <td> {{item.description}}</td>
+
+                  <td class="text-center">
+
+
+                    <button mat-raised-button type="button" matTooltip="Edit" [matTooltipPosition]="'above'"
+                      class="btn btn-success btn-sm btn-link  btn-icon" (click)="onDetail(item.id)">
+                      <i class="material-icons">edit</i>
+                    </button>
+                    <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'"
+                      class="btn btn-danger btn-sm btn-link btn-icon" (click)="onDelete(item.id)">
+                      <i class="material-icons">close</i>
+                    </button>
+
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+          <div class="row mt-2">
+
+            <div class="col-md-12 text-center">
+              <pagination-controls class="pageData" id="pagination" previousLabel="Prev" nextLabel="Next"
+                [responsive]="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+<div class="modal fade" bsModal #staticModal="bs-modal" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="dialog-static-name" class="modal-title pull-left card-title text-primary mt-0">เพิ่มประเภทเมนูใหม่
+        </h5>
+        <button type="button" class="close" aria-label="Close" (click)="hideChildModal()">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+      <form [formGroup]="categoryForm" (ngSubmit)="create()">
+        <div class="modal-body">
+
+          <div class="row">
+            <div class="col-md-12 pr-1">
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': f['categoryName'].touched && f['categoryName'].errors, 'has-success': f['categoryName'].valid }">
+                <label>ชื่อประเภทเมนู</label>
+                <input type="text" class="form-control" formControlName="categoryName">
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+
+
+            <div class="col-md-12">
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': f['categoryId'].touched && f['categoryId'].errors, 'has-success': f['categoryId'].valid }">
+                <label for="email">รหัสประเภทเมนู</label>
+                <input type="text" class="form-control" formControlName="categoryId">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': f['description'].touched && f['description'].errors, 'has-success': f['description'].valid }">
+                <label>รายละเอียด</label>
+                <textarea rows="4" cols="80" class="form-control" formControlName="description"></textarea>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">ยืนยัน</button>
+          <button type="button" class="btn btn-gray" (click)="hideChildModal()">ยกเลิก</button>
+
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+</div>
+
+
+
+<div class="modal fade" bsModal #staticModal2="bs-modal" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="dialog-static-name" class="modal-title pull-left card-title text-primary mt-0">แก้ไขประเภทเมนู
+        </h5>
+        <button type="button" class="close" aria-label="Close" (click)="hideChildModal2()">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+
+      <form [formGroup]="categoryUpdateForm" (ngSubmit)="update()">
+        <div class="modal-body">
+
+          <div class="row">
+            <div class="col-md-12 pr-1">
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': fUpdate['categoryName'].touched && fUpdate['categoryName'].errors, 'has-success': fUpdate['categoryName'].valid }">
+                <label>ชื่อประเภทเมนู</label>
+                <input type="text" class="form-control" formControlName="categoryName">
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+
+
+            <div class="col-md-12">
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': fUpdate['categoryId'].touched && fUpdate['categoryId'].errors, 'has-success': fUpdate['categoryId'].valid }">
+                <label for="email">รหัสประเภทเมนู</label>
+                <input type="text" class="form-control" formControlName="categoryId">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group"
+                [ngClass]="{ 'has-danger': fUpdate['description'].touched && fUpdate['description'].errors, 'has-success': fUpdate['description'].valid }">
+                <label>รายละเอียด</label>
+                <textarea rows="4" cols="80" class="form-control" formControlName="description"></textarea>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">ยืนยัน</button>
+          <button type="button" class="btn btn-gray" (click)="hideChildModal2()">ยกเลิก</button>
+
+        </div>
+      </form>
+
+
+    </div>
+  </div>
+
+</div>
+
+
+<div class="modal fade" bsModal #staticModalImport="bs-modal" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-static-name" class="modal-title pull-left card-title text-primary mt-0">Import Data</h4>
+        <button type="button" class="close" aria-label="Close" (click)="hideChildModalImport()">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-9">
+
+            <div class="form-group form-file-upload form-file-simple">
+              <input class="form-control inputFileVisible " placeholder="Choose File" type="text"
+                [(ngModel)]="fileName">
+              <input class="inputFileHidden" type="file" (change)="selectFile($event)"
+                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+            </div>
+
+          </div>
+
+          <div class="col-3">
+            <button class="btn btn-success mt-0 btn-round btn-block" [disabled]="!selectedFiles" (click)="upload()">
+              Upload
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="currentFile" class="progress my-3">
+          <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+            attr.aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"
+            [ngStyle]="{ width: progress + '%' }">
+            {{ progress }}%
+          </div>
+        </div>
+        <div *ngIf="message" class="alert alert-danger" role="alert">{{ message }}</div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

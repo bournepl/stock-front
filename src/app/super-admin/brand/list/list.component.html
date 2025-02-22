@@ -1,0 +1,284 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title"> Filter</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-10">
+              <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus1===true}">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-search"></i></span>
+                </div>
+                <input type="text" placeholder="Search..." class="form-control" (focus)="focus1=true"
+                  (blur)="focus1=false" [(ngModel)]="title" [ngModelOptions]="{standalone: true}"
+                  (keyup)="onKeyUp($event)" />
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <button class="btn btn-primary btn-round btn-block m-0" (click)="showChildModal()">สร้างแบรนด์</button>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+
+          <div class="row">
+            <div class="col-md-6">
+
+              <h4 class="card-title">รายชื่อแบรนด์</h4>
+            </div>
+            <div class="col-md-6">
+
+
+              <button type="button" class="btn btn-info  float-right mt-0 ml-2">
+                Export
+              </button>
+
+
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="">
+            <table class="table table-hover">
+
+              <thead class="text-primary">
+                <tr>
+                  <th>ชื่อแบรนด์</th>
+                  <th>รหัสแบรนด์</th>
+                  <th>เบอร์โทร</th>
+                  <th>อีเมล</th>
+                  <th>เลขผู้เสียภาษี</th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr
+                  *ngFor="let item of getCompany | paginate: {id: 'pagination',itemsPerPage: pageSize, currentPage: page,totalItems: count };let i =index;">
+                  <td>
+                    <a (click)="onDetail(item.id)" class="text-primary text-bold">{{item.companyName}}
+                    </a>
+                  </td>
+
+                  <td> {{item.companyId}}</td>
+                  <td> {{item.phone}} </td>
+                  <td> {{item.email}} </td>
+                  <td> {{item.taxId}} </td>
+                  <td class="text-center">
+
+                    <button mat-raised-button type="button" matTooltip="Manage" [matTooltipPosition]="'above'"
+                      class="btn btn-warning btn-link" (click)="onManage(item.uniqueKey)">
+                      <i class="material-icons">info</i><span class="text-warning"></span>
+                    </button>
+                    <button mat-raised-button type="button" matTooltip="Edit" [matTooltipPosition]="'above'"
+                      class="btn btn-success  btn-link  " (click)="onDetail(item.id)">
+                      <i class="material-icons">edit</i>
+                    </button>
+                    <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'"
+                      class="btn btn-danger   btn-link  ">
+                      <i class="material-icons">close</i>
+                    </button>
+
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+          <div class="row mt-2">
+            <div class="col-md-12 text-center">
+              <pagination-controls class="pageData" id="pagination" previousLabel="Prev" nextLabel="Next"
+                [responsive]="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<div class="modal fade" bsModal #staticModal="bs-modal" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="dialog-static-name" class="modal-title pull-left card-title text-primary mt-0">สร้างแบรนด์
+        </h5>
+        <button type="button" class="close" aria-label="Close" (click)="hideChildModal()">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+
+
+
+          <div class="row">
+
+            <div class="col-lg-6">
+
+              <div class="row">
+                <div class="col-md-12">
+
+                  <h6>User Infomation</h6>
+
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group"
+                    [ngClass]="{ 'has-danger': f['name'].touched && f['name'].errors, 'has-success': f['name'].valid }">
+                    <label>ชื่อจริง-สกุล</label>
+
+                    <input type="text" class="form-control" formControlName="name">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group"
+                    [ngClass]="{ 'has-danger': f['email'].touched && f['email'].errors, 'has-success': f['email'].valid }">
+                    <label>Email </label> <span class="text-mini text-danger"> *ใช้สำหรับ Login
+                      เข้าสู่ระบบ</span>
+
+                    <input type="text" class="form-control" formControlName="email">
+                  </div>
+                </div>
+
+
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group"
+                    [ngClass]="{ 'has-danger': f['phone'].touched && f['phone'].errors, 'has-success': f['phone'].valid }">
+                    <label for="">เบอร์โทร</label>
+                    <input type="text" class="form-control" formControlName="phone">
+                  </div>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group"
+                    [ngClass]="{ 'has-danger': f['password'].touched && f['password'].errors, 'has-success': f['password'].valid }">
+                    <label for="password">Password</label>
+                    <input type="text" class="form-control" formControlName="password">
+                  </div>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group"
+                    [ngClass]="{ 'has-danger': f['confirmPassword'].touched && f['confirmPassword'].errors, 'has-success': f['confirmPassword'].valid }">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="text" class="form-control" formControlName="confirmPassword">
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+            <div class="col-lg-6">
+              <div class="row">
+                <div class="col-md-12">
+
+                  <h6>Brand Infomation</h6>
+
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-md-12  ">
+                  <div class="form-group"
+                    [ngClass]="{ 'has-danger': f['brandName'].touched && f['brandName'].errors, 'has-success': f['brandName'].valid }">
+                    <label>ชื่อแบรนด์</label>
+                    <input type="text" class="form-control" formControlName="brandName">
+                  </div>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group"
+                    [ngClass]="{ 'has-danger': f['brandId'].touched && f['brandId'].errors, 'has-success': f['brandId'].valid }">
+                    <label for="brandId">รหัสแบรนด์</label>
+                    <input type="text" class="form-control" formControlName="brandId">
+                  </div>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group"
+                    [ngClass]="{ 'has-danger': f['brandPhone'].touched && f['brandPhone'].errors, 'has-success': f['brandPhone'].valid }">
+                    <label for="brandPhone">เบอร์โทรแบรนด์</label>
+                    <input type="text" class="form-control" formControlName="brandPhone">
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group"
+                    [ngClass]="{ 'has-danger': f['brandEmail'].touched && f['brandEmail'].errors, 'has-success': f['brandEmail'].valid }">
+                    <label for="brandEmail">อีเมลแบรนด์</label>
+                    <input type="text" class="form-control" formControlName="brandEmail">
+                  </div>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group"
+                    [ngClass]="{ 'has-danger': f['taxId'].touched && f['taxId'].errors, 'has-success': f['taxId'].valid }">
+                    <label for="taxId">เลขผู้เสียภาษี</label>
+                    <input type="text" class="form-control" formControlName="taxId">
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+        </div>
+
+
+        <div class="modal-footer">
+          <button type="submit" [disabled]="userForm.invalid" class="btn btn-success">ยืนยัน</button>
+          <button type="button" class="btn btn-gray" (click)="hideChildModal()">ยกเลิก</button>
+
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+</div>

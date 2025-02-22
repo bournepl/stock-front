@@ -1,0 +1,112 @@
+<div class="card">
+
+  <div class="card-header">
+
+    <div class="row">
+      <div class="col-md-8">
+
+        <h5 class="card-title">มูลค่าสต็อกรับเข้า ตามหมวดหมู่</h5>
+      </div>
+      <div class="col-md-4">
+
+
+
+        <button type="button" class="btn btn-info  float-right mt-0 ml-2" (click)="exportExcel()">
+          Export
+        </button>
+
+
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="card-body">
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus===true}">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-search"></i></span>
+          </div>
+          <input type="text" placeholder="Search..." class="form-control" (focus)="focus=true" (blur)="focus=false"
+            (keyup)="onKeyUp($event)" />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus1===true}">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+          </div>
+          <input class="form-control" placeholder="Date" name="dp" ngbDatepicker (focus)="focus1=true"
+            (blur)="focus1=false" #d2="ngbDatepicker" (click)="d2.toggle()" autocomplete="off" [(ngModel)]="today"
+            (dateSelect)="onDateSelect($event)">
+        </div>
+
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <select class="form-control  " [(ngModel)]="branchId" [ngModelOptions]="{standalone: true}"
+            (change)="searchBranch($event)">
+            <option value="">สาขา</option>
+            <option *ngFor="let item of getBranch" value="{{item.id}}">{{item.branchName}}
+            </option>
+
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary btn-round btn-block m-0" (click)="onClear()">Clear</button>
+      </div>
+    </div>
+
+    <div class="">
+      <table class="table table-hover" id="excel-table">
+
+        <thead class="text-primary">
+          <tr>
+            <th class="text-center" style="width: 10%;">ลำดับที่</th>
+            <th style="width: 40%;">หมวดหมู่</th>
+            <th>มูลค่า</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            *ngFor="let item of getIngredients | paginate: {id: 'pagination',itemsPerPage: pageSize, currentPage: page,totalItems: count };let i =index;">
+
+            <td class="text-center"> {{(page-1) * pageSize + i + 1}}</td>
+
+            <td>{{item.ingredientCategoryName}}</td>
+            <td>{{item.purchaseQuantity | number:'1.2-2'}} </td>
+
+
+
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div class="row mt-2 ">
+
+      <div class="col-md-6 align-self-center">
+        <select class="form-control float-right" style="width: 100px;" [(ngModel)]="pageSize"
+          (change)="onPageChange($event)">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="200">200</option>
+          <option value="500">500</option>
+          <option value="1000">1000</option>
+        </select>
+        <span class="float-right mt-1 mr-3 text-gray">Item Per Page : </span>
+
+      </div>
+      <div class="col-md-6 ">
+        <pagination-controls class="pageData " id="pagination" previousLabel="Prev" nextLabel="Next" [responsive]="true"
+          (pageChange)="handlePageChange($event)"></pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>

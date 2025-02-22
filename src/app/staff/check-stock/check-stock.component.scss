@@ -1,0 +1,53 @@
+.pageData ::ng-deep .ngx-pagination .current {
+  background: #c4974f;
+  border-radius: 50%;
+  color: #a72f00;
+}
+
+
+@media screen and (max-width: 600px) {
+  table {
+    border: 0;
+  }
+
+  table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+
+  table tr {
+    border-bottom: 2px solid #ddd;
+    display: block;
+    margin-bottom: 0.625em;
+  }
+
+  table td {
+    border-bottom: 0px;
+    display: block;
+    text-align: right;
+    border-top: 0px;
+    padding: 8px;
+
+  }
+
+  table td::before {
+
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  table td:last-child {
+    border-bottom: 1px solid #ddd;
+
+  }
+
+
+}

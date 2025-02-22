@@ -1,0 +1,72 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-stats">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="statistics">
+                <div class="info">
+
+                  <h3 class="info-title text-info">{{total|number:'1.2-2'}}</h3>
+                  <h6 class="stats-title">มูลค่าสต๊อก</h6>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="statistics">
+                <div class="info">
+
+                  <h3 class="info-title text-warning">{{totalP|number:'1.2-2'}}</h3>
+                  <h6 class="stats-title">มูลค่าสต๊อก รับเข้า</h6>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="statistics">
+                <div class="info">
+
+                  <h3 class="info-title text-success">{{totalW |number:'1.2-2'}}</h3>
+                  <h6 class="stats-title">มูลค่า Waste</h6>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="statistics">
+                <div class="info">
+
+                  <h3 class="info-title text-danger">{{(totalW/sum)*100 |number:'1.2-2'}}%</h3>
+                  <h6 class="stats-title">สัดส่วน Waste</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <app-chart3></app-chart3>
+    </div>
+    <div class="col-md-6">
+      <app-chart4></app-chart4>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <app-chart2></app-chart2>
+    </div>
+    <div class="col-md-6">
+      <app-chart1></app-chart1>
+    </div>
+
+  </div>
+
+</div>

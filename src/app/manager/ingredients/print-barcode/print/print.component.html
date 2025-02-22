@@ -1,0 +1,67 @@
+<div class="panel-header panel-header-sm">
+</div>
+
+<div class="main-content">
+
+  <div class="row ">
+
+    <div id="print-section" class="col-9 card-print-main">
+      <div class="row card-row">
+
+        <div class="col-12">
+
+          <div class="row ">
+            <ng-container *ngFor="let getProduct of cartItemList; let i = index">
+              <div class="page-break" *ngIf="(i+1) % 14 === 0"></div>
+
+              <div class="col-6 mb-5">
+                <div class="row">
+                  <div class="col-12" style="text-align:center">
+                    <span style="font-size: 16px;font-weight: bold;" class="text-primary"><b>
+                        {{getProduct.ingredientName}}</b> {{i}}</span>
+                    <ngx-barcode6 [bc-width]="2" class="barcode6" [bc-format]="'CODE128'"
+                      [bc-value]="getProduct.barCodeNumber" [bc-display-value]="true">
+                    </ngx-barcode6>
+                  </div>
+
+                </div>
+              </div>
+
+            </ng-container>
+          </div>
+
+        </div>
+
+
+
+      </div>
+    </div>
+    <div class="col-3 card-print">
+      <div class="row ">
+        <div class="col-12">
+          <div class="card ">
+
+            <div class="card-body card-body-box">
+              <div class="row">
+                <div class="col-12 ml-auto mr-auto">
+                  <button type="button" class="btn btn-primary btn-round btn-block" (click)="onPrint()">พิมพ์
+                    Barcode</button>
+                  <button type="button" class="btn btn-gray btn-round btn-block" (click)="onBack()"><span>ยกเลิก</span>
+                  </button>
+                </div>
+              </div>
+
+
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+</div>
+<!--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->

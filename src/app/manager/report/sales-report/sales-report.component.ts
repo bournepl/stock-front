@@ -1,0 +1,162 @@
+import { Component, inject } from '@angular/core';
+
+import { Router } from '@angular/router';
+
+import { FormBuilder } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+
+import * as XLSX from 'xlsx';
+import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { MenuCategory } from '../../../_model/menu-category';
+import { Menu } from '../../../_model/menu';
+import { MenuCategoryService } from '../../../_services/menu-category.service';
+import { StorageService } from '../../../_services/storage.service';
+import { ReportService } from '../../../_services/report.service';
+import { ExcelService } from '../../../_services/excel.service';
+
+
+@Component({
+  selector: 'app-sales-report',
+  templateUrl: './sales-report.component.html',
+  styleUrl: './sales-report.component.scss'
+})
+export class SalesReportComponent {
+
+  focus: any;
+  focus1: any;
+
+  title = '';
+  date = '';
+  page = 1;
+  pageSize = 10;
+  count = 0;
+  getMenu: any[] = [];
+  menu: Menu;
+
+  getCategory: MenuCategory[] = [];
+
+  today = inject(NgbCalendar).getToday();
+
+
+  fileNameExport = 'SalesReport.xlsx';
+
+  constructor(
+    private router: Router,
+    private categoryService: MenuCategoryService,
+    private token: StorageService,
+    private reportService: ReportService,
+    private formBuilder: FormBuilder,
+    private loadingBar: NgxSpinnerService,
+    private excelService: ExcelService
+
+  ) {
+
+  }
+
+  ngOnInit(): void {
+
+    this.date = ('0' + (this.today.day)).slice(-2) + '/' + ('0' + (this.today.month)).slice(-2) + '/' + this.today.year;
+
+    this.retrieveCategory();
+    this.retrieveMenu();
+
+  }
+  retrieveCategory() {
+
+    this.loadingBar.show();
+    this.categoryService.findAll(this.token.getUser().uniqueKey, this.token.getBranchId(),)
+      .subscribe({
+        next: (data) => {
+          this.getCategory = data;
+
+        },
+        error: (err) => {
+          console.log(err);
+
+        }
+      });
+  }
+  retrieveMenu() {
+
+    this.loadingBar.show();
+
+    const params = this.getRequestParams(this.title, this.date, this.page, this.pageSize);
+
+    this.reportService.getAllSales(this.token.getUser().uniqueKey, this.token.getBranchId(), params)
+      .subscribe({
+        next: (data) => {
+
+          const { result, totalItems } = data;
+          this.getMenu = result;
+          this.count = totalItems;
+
+          console.log(data)
+
+          this.loadingBar.hide();
+        },
+        error: (err) => {
+          console.log(err);
+
+        }
+      });
+  }
+
+
+  onDateSelect(event: NgbDate) {
+
+    this.date = ('0' + (event.day)).slice(-2) + '/' + ('0' + (event.month)).slice(-2) + '/' + event.year;
+
+    this.page = 1;
+    this.retrieveMenu();
+
+  }
+
+  getRequestParams(searchTitle: string, date: string, page: number, pageSize: number): any {
+    let params: any = {};
+
+    if (searchTitle) {
+      params['title'] = searchTitle;
+    }
+
+    if (date) {
+      params['date'] = date;
+    }
+
+    if (page) {
+      params['page'] = page - 1;
+    }
+
+    if (pageSize) {
+      params['size'] = pageSize;
+    }
+
+    return params;
+  }
+  handlePageChange(event: number): void {
+    this.page = event;
+    this.retrieveMenu();
+  }
+
+
+  onPageChange(event: any) {
+    this.pageSize = event.target.value;
+    this.page = 1;
+    this.retrieveMenu();
+  }
+  onKeyUp(event: any) {
+    this.title = event.target.value;
+    this.page = 1;
+    this.retrieveMenu();
+
+  }
+  exportExcel() {
+    let element = document.getElementById('excel-table');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    XLSX.writeFile(wb, this.fileNameExport);
+  }
+
+}

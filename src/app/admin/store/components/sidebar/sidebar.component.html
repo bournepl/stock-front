@@ -1,0 +1,217 @@
+<div class="logo">
+  <a class="simple-text text-center">
+    <img class="image-logo mb-3" src="assets/img/final.png" alt="logo">
+  </a>
+  <hr class="mt-0">
+  <a class="simple-text logo-normal text-center p-0 text-gray">
+    สาขา
+  </a>
+  <a style="font-size: 20px;" class="simple-text logo-normal text-center text-primary p-0" *ngIf="getBranchById">
+    {{getBranchById.branchName}}
+  </a>
+</div>
+<div class="sidebar-wrapper">
+  <ul class="nav">
+
+    <li routerLinkActive="active" class="nav-item">
+      <a class="nav-link" [routerLink]="'/admin/store/dashboard'">
+        <i class="material-icons">dashboard</i>
+        <p>Dashboard</p>
+      </a>
+    </li>
+
+    <li routerLinkActive="active" class="nav-item"><!----><a data-toggle="collapse" class="nav-link collapsed"
+        href="#report" aria-expanded="false"><i class="material-icons">list_alt</i>
+        <p>Report<b class="caret"></b></p>
+      </a><!---->
+      <div class="collapse" id="report">
+        <ul class="nav mt-2">
+
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" [routerLink]="'/admin/store/report/summary-report'">
+              <span class="sidebar-normal ml-5">Summary Report</span>
+            </a>
+          </li>
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" [routerLink]="'/admin/store/report/inventory-report'">
+              <span class="sidebar-normal ml-5">Invrntory Report</span>
+            </a>
+          </li>
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" [routerLink]="'/admin/store/report/stock-report'">
+              <span class="sidebar-normal ml-5">Movement Report</span>
+            </a>
+          </li>
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" [routerLink]="'/admin/store/report/sales-report'">
+              <span class="sidebar-normal ml-5">Sales Report</span>
+            </a>
+          </li>
+
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" [routerLink]="'/admin/store/report/supplier-report'">
+              <span class="sidebar-normal ml-5">Supplier Report</span>
+            </a>
+          </li>
+        </ul>
+      </div><!---->
+    </li>
+
+    <li routerLinkActive="active" class="nav-item">
+      <a class="nav-link" [routerLink]="'/admin/store/sale'">
+        <i class="material-icons">list_alt</i>
+        <p>รายการขาย</p>
+      </a>
+    </li>
+
+    <li routerLinkActive="active" class="nav-item"><!----><a data-toggle="collapse" class="nav-link collapsed"
+        href="#pos" aria-expanded="false"><i class="material-icons">restaurant_menu</i>
+        <p>เมนู<b class="caret"></b></p>
+      </a><!---->
+      <div class="collapse" id="pos">
+        <ul class="nav mt-2">
+
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" [routerLink]="'/admin/store/menu/menu-list'">
+              <span class="sidebar-normal ml-5">รายการเมนู</span>
+            </a>
+          </li>
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" [routerLink]="'/admin/store/menu/menu-category'">
+              <span class="sidebar-normal ml-5">ประเภทเมนู</span>
+            </a>
+          </li>
+
+        </ul>
+      </div><!---->
+    </li>
+
+
+    <li routerLinkActive="active" class="nav-item">
+      <a class="nav-link" [routerLink]="'/admin/store/check-stock'">
+        <i class="material-icons">checklist</i>
+        <p>ตรวจสอบสินค้า</p>
+      </a>
+    </li>
+    <li routerLinkActive="active" class="nav-item"><!----><a data-toggle="collapse" class="nav-link collapsed"
+        href="#inventory" aria-expanded="false"><i class="material-icons">inventory</i>
+        <p>สินค้าคงคลัง<b class="caret"></b></p>
+      </a><!---->
+      <div class="collapse" id="inventory">
+        <ul class="nav mt-2">
+          <li routerLinkActive="active" class="nav-item"><a class="nav-link"
+              [routerLink]="'/admin/store/inventory/last-stock'">
+              <span class="sidebar-normal ml-5"> สต็อกยกมา</span>
+            </a>
+          </li>
+          <li routerLinkActive="active" class="nav-item"><a class="nav-link"
+              [routerLink]="'/admin/store/inventory/purchase-stock'">
+              <span class="sidebar-normal ml-5"> สต็อกรับเข้า</span>
+            </a>
+          </li>
+
+          <li routerLinkActive="active" class="nav-item"><a class="nav-link"
+              [routerLink]="'/admin/store/inventory/current-stock'">
+              <span class="sidebar-normal ml-5"> สต็อกคงเหลือ</span>
+            </a>
+          </li>
+
+
+          <li routerLinkActive="active" class="nav-item"><a class="nav-link"
+              [routerLink]="'/admin/store/inventory/use-stock'">
+              <span class="sidebar-normal ml-5"> สต็อกที่ใช้ไป</span>
+            </a>
+          </li>
+
+
+          <li routerLinkActive="active" class="nav-item"><a class="nav-link"
+              [routerLink]="'/admin/store/inventory/bom-stock'">
+              <span class="sidebar-normal ml-5"> สต็อกตามมาตรฐาน</span>
+            </a>
+          </li>
+          <li routerLinkActive="active" class="nav-item"><a class="nav-link"
+              [routerLink]="'/admin/store/inventory/waste-stock'">
+              <span class="sidebar-normal ml-5"> Waste</span>
+            </a>
+          </li>
+          <li routerLinkActive="active" class="nav-item"><a class="nav-link"
+              [routerLink]="'/admin/store/inventory/calculate'">
+              <span class="sidebar-normal ml-5"> Calculate Min Max</span>
+            </a>
+          </li>
+        </ul>
+      </div><!---->
+    </li>
+    <li routerLinkActive="active" class="nav-item"><!----><a data-toggle="collapse" class="nav-link collapsed"
+        href="#description" aria-expanded="false"><i class="material-icons">description</i>
+        <p>เอกสารซื้อ<b class="caret"></b></p>
+      </a><!---->
+      <div class="collapse" id="description">
+        <ul class="nav mt-2">
+          <li routerLinkActive="active" class="nav-item"><a class="nav-link" [routerLink]="'/admin/store/purchases/pr'">
+              <span class="sidebar-normal ml-5">ใบขอซื้อ (PR)</span>
+            </a>
+          </li>
+          <li routerLinkActive="active" class="nav-item"><a class="nav-link" [routerLink]="'/admin/store/purchases/po'">
+              <span class="sidebar-normal ml-5">ใบสั่งซื้อ (PO)</span>
+            </a>
+          </li>
+          <li routerLinkActive="active" class="nav-item"><a class="nav-link" [routerLink]="'/admin/store/purchases/ri'">
+              <span class="sidebar-normal ml-5">ใบรับสินค้า (RI)</span>
+            </a>
+          </li>
+
+
+        </ul>
+      </div><!---->
+    </li>
+    <li routerLinkActive="active" class="nav-item"><!----><a data-toggle="collapse" class="nav-link collapsed"
+        href="#ingredients" aria-expanded="false"><i class="material-icons">category</i>
+        <p>วัตถุดิบ<b class="caret"></b></p>
+      </a><!---->
+      <div class="collapse" id="ingredients">
+        <ul class="nav mt-2">
+
+          <li routerLinkActive="active" class="nav-item"><a class="nav-link"
+              [routerLink]="'/admin/store/ingredients/ingredients-list'">
+              <span class="sidebar-normal ml-5">รายการวัตถุดิบ</span>
+            </a>
+          </li>
+          <li routerLinkActive="active" class="nav-item"><a class="nav-link"
+              [routerLink]="'/admin/store/ingredients/ingredients-category'">
+              <span class="sidebar-normal ml-5">หมวดหมู่วัตถุดิบ</span>
+            </a>
+          </li>
+
+          <li routerLinkActive="active" class="nav-item"><a class="nav-link"
+              [routerLink]="'/admin/store/ingredients/print-barcode'">
+              <span class="sidebar-normal ml-5">Print Barcode</span>
+            </a>
+          </li>
+
+        </ul>
+      </div><!---->
+    </li>
+    <li routerLinkActive="active" class="nav-item">
+      <a class="nav-link" [routerLink]="'/admin/store/supplier'">
+        <i class="material-icons">person</i>
+        <p>ผู้จัดจำหน่าย</p>
+      </a>
+    </li>
+    <li routerLinkActive="active" class="nav-item">
+      <a class="nav-link" [routerLink]="'/admin/store/user'">
+        <i class="material-icons">accessibility_new</i>
+        <p>พนักงาน</p>
+      </a>
+    </li>
+    <hr>
+
+
+
+    <li routerLinkActive="active" class="nav-item"><a class="nav-link" routerLink="/admin/brand/branch"><i
+          class="material-icons">keyboard_backspace</i>
+        <p>กลับหน้าหลัก</p>
+      </a><!----><!----><!----></li><!---->
+  </ul>
+
+</div>

@@ -1,0 +1,94 @@
+.img-upload {
+  width: 200px;
+  border-radius: 50%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.hoverable {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  box-shadow: 2px 5px 10px 1px rgba(0, 0, 0, 0.24);
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+}
+
+.hover-text {
+  position: absolute;
+  visibility: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s linear;
+}
+
+.hover-remove {
+  padding: 5px;
+  background-color: red;
+  width: 40px;
+  border-radius: 3px;
+  color: #fff;
+  top: 3%;
+  left: 80%;
+  z-index: 2;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s linear;
+}
+
+.hover-remove:hover {
+  box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.24);
+}
+
+.hoverable:hover .hover-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.hoverable:hover .img-upload {
+  opacity: 0.2;
+  transition: all 0.3s;
+}
+
+.hover-filename {
+  position: absolute;
+  visibility: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s linear;
+}
+
+.dropDrag {
+  color: #444;
+  font-size: 12px;
+}
+
+.filename {
+  font-size: 16px;
+  border-bottom: 1px solid rgb(0, 0, 0);
+}
+
+.hoverable:hover .hover-filename {
+  visibility: visible;
+  opacity: 1;
+}
+
+.hoverable:hover .hover-remove {
+  visibility: visible;
+  opacity: 1;
+}
+
+#customFile {
+  display: none;
+}
+
+.mdi-file-upload {
+  font-size: 80px;
+}

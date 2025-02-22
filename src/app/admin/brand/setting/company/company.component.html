@@ -1,0 +1,235 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+
+  <div class="row">
+    <div class="col-lg-4 ">
+
+      <div class="card  ">
+        <div class="image">
+          <img [src]="imageToShow" alt="...">
+        </div>
+
+        <div class="card-body">
+          <div class="author">
+            <div class="row justify-content-center">
+              <div class="col-12 text-center">
+                <a>
+                  <h5 class="title">{{getCompany.companyName}}</h5>
+                </a>
+
+              </div>
+
+            </div>
+
+            <hr>
+            <div class="row">
+              <div class="col-5">
+                <label class="text-title">ชื่อแบรนด์</label>
+              </div>
+              <div class="col-7">
+                <label class="text-dark">{{getCompany.companyName}}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-5">
+                <label class="text-title">รหัสแบรนด์</label>
+              </div>
+              <div class="col-7">
+                <label class="text-dark">{{getCompany.companyId}}</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-5">
+                <label class="text-title">เบอร์โทรแบรนด์</label>
+              </div>
+              <div class="col-7">
+                <label class="text-dark">{{getCompany.phone}}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-5">
+                <label class="text-title">อีเมลแบรนด์</label>
+              </div>
+              <div class="col-7">
+                <label class="text-dark">{{getCompany.email}}</label>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-5">
+                <label class="text-title">เลขผู้เสียภาษี</label>
+              </div>
+              <div class="col-7">
+                <label class="text-dark">{{getCompany.taxId}}</label>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    <div class="col-lg-8 grid-margin stretch-card">
+
+
+      <div class="row">
+
+        <div class="col-lg-12">
+
+          <div class="card ">
+            <div class="card-header">
+              <div class="nav-tabs-navigation">
+                <div class="nav-tabs-wrapper">
+
+                  <ul class="nav nav-tabs" data-tabs="tabs">
+                    <li class="nav-item">
+                      <a mat-button class="nav-link active" href="#profile" data-toggle="tab">
+                        Infomation
+                        <div class="ripple-container"></div>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a mat-button class="nav-link" href="#logo" data-toggle="tab">
+                        Logo
+                        <div class="ripple-container"></div>
+                      </a>
+                    </li>
+
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="card-body ">
+
+              <div class="tab-content ">
+                <div class="tab-pane active" id="profile">
+                  <form [formGroup]="companyForm" (ngSubmit)="onEditCompany()">
+                    <div class="row">
+                      <div class="col-md-12  ">
+                        <div class="form-group"
+                          [ngClass]="{ 'has-danger': f['brandName'].touched && f['brandName'].errors, 'has-success': f['brandName'].valid }">
+                          <label>ชื่อแบรนด์</label>
+                          <input type="text" class="form-control" formControlName="brandName">
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group"
+                          [ngClass]="{ 'has-danger': f['brandId'].touched && f['brandId'].errors, 'has-success': f['brandId'].valid }">
+                          <label for="brandId">รหัสแบรนด์</label>
+                          <input type="text" class="form-control" formControlName="brandId">
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group"
+                          [ngClass]="{ 'has-danger': f['brandPhone'].touched && f['brandPhone'].errors, 'has-success': f['brandPhone'].valid }">
+                          <label for="brandPhone">เบอร์โทรแบรนด์</label>
+                          <input type="text" class="form-control" formControlName="brandPhone">
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group"
+                          [ngClass]="{ 'has-danger': f['brandEmail'].touched && f['brandEmail'].errors, 'has-success': f['brandEmail'].valid }">
+                          <label for="brandEmail">อีเมลแบรนด์</label>
+                          <input type="email" class="form-control" formControlName="brandEmail">
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group"
+                          [ngClass]="{ 'has-danger': f['taxId'].touched && f['taxId'].errors, 'has-success': f['taxId'].valid }">
+                          <label for="taxId">เลขผู้เสียภาษี</label>
+                          <input type="text" class="form-control" formControlName="taxId">
+                        </div>
+                      </div>
+
+                    </div>
+
+
+                    <div class="row">
+                      <div class="col-md-12 text-right">
+                        <div class="update">
+                          <button class="btn btn btn-success" type="submit">
+                            <span>บันทึกข้อมูล</span> </button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+
+                </div>
+                <div class="tab-pane" id="logo">
+                  <div class="row justify-content-center mb-3 mt-3">
+
+                    <div class="col-md-12 text-center">
+                      <label class="hoverable" for="customFile">
+                        <img alt="User Pic" [src]="url ? url : imageToShow" class="img-upload">
+                        <div class="hover-text" *ngIf="!url">
+                          <i class="material-icons mdi-file-upload">upload_file</i>
+                        </div>
+
+                        <div class="hover-filename " *ngIf="url">
+                          <div class="row justify-content-center">
+                            <div class="col-12 text-center">
+                              <span class="filename"> <b>{{fileName}}</b> </span>
+                            </div>
+
+                          </div>
+                          <div class="row justify-content-center">
+                            <div class="col-12 text-center mb-2">
+                              <span class="dropDrag">Drag and drop or click to
+                                replace</span>
+                            </div>
+                            <div class="col-md-12  text-center">
+
+                              <label class="hover-remove text-center" *ngIf="url" (click)="delete($event) ">
+                                <div> <i class="material-icons">delete</i></div>
+                              </label>
+                            </div>
+                          </div>
+
+                        </div>
+
+
+                      </label>
+                      <input type="file" id="customFile" accept="image/*" (change)="selectFile($event)">
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 text-right">
+                      <div class="update">
+                        <button class="btn btn btn-success" type="submit" (click)="onUpload()">
+                          <span>บันทึกข้อมูล</span> </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+    </div>
+  </div>
+</div>

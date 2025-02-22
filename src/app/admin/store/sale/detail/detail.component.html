@@ -1,0 +1,225 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row" *ngIf="getOrderDetail">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-6">
+
+              <h5 class="card-title">รายละเอียดรายการขาย
+
+              </h5>
+            </div>
+            <div class="col-md-6">
+
+              <button type="button" class="btn btn-success float-right mt-0 ml-2" *ngIf="!getOrderDetail.statusApproved"
+                (click)="onApporved(getOrderDetail.id)">
+                อนุมัติ
+              </button>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-6">
+
+
+              <div class="row mb-1">
+                <div class="col-4">
+                  <span class="text-title">เลขที่เอกสาร :</span>
+                </div>
+                <div class="col-8">
+                  <span class="text-primary text-bold">{{getOrderDetail.orderId}}
+                  </span>
+                </div>
+              </div>
+
+              <div class="row mb-1">
+                <div class="col-4">
+                  <span class="text-title">วันที่ :</span>
+                </div>
+                <div class="col-8">
+                  <span class="text-data">{{getOrderDetail.dateDay}} {{getOrderDetail.time}} </span>
+                </div>
+              </div>
+
+
+              <div class="row mb-1">
+                <div class="col-4">
+                  <span class="text-title">ช่องทางการขาย :</span>
+                </div>
+                <div class="col-8">
+                  <span *ngIf="getOrderDetail.channelType=='atstore'">หน้าร้าน</span>
+                  <span *ngIf="getOrderDetail.channelType=='takehome'">กลับบ้าน</span>
+                  <span *ngIf="getOrderDetail.channelType=='delivery'">เดลิเวอรี่</span>
+                </div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-4">
+                  <span class="text-title">ช่องทางการรับเงิน :</span>
+                </div>
+                <div class="col-8">
+                  <span class="text-data">{{getOrderDetail.paymentType}}</span>
+                </div>
+              </div>
+
+              <div class="row mb-1">
+                <div class="col-4">
+                  <span class="text-title">หมายเหตุ : </span>
+                </div>
+                <div class="col-8">
+                  <span class="text-data"> {{getOrderDetail.description}}</span>
+                </div>
+              </div>
+
+
+
+
+            </div>
+            <div class="col-lg-6">
+              <div class="row mb-1">
+                <div class="col-4">
+                  <span class="text-title">พนักงาน : </span>
+                </div>
+                <div class="col-8">
+                  <span class="text-data"> {{getOrderDetail.user.name}}</span>
+                </div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-4">
+                  <span class="text-title">สถานะ : </span>
+                </div>
+                <div class="col-8">
+                  <span class="badge badge-warning" style="font-weight: 500; font-size: 12px;"
+                    *ngIf="getOrderDetail.orderStatus=='รออนุมัติ'">{{getOrderDetail.orderStatus}}</span>
+                  <span class="badge badge-success" style="font-weight: 500; font-size: 12px;"
+                    *ngIf="getOrderDetail.orderStatus=='ดำเนินการแล้ว'">{{getOrderDetail.orderStatus}}</span>
+
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+
+    <div class="col-md-12">
+      <div class="card">
+
+        <div class="card-header">
+
+          <div class="row">
+            <div class="col-md-6">
+
+              <h5 class="card-title">รายการเมนู
+
+              </h5>
+            </div>
+            <div class="col-md-6">
+              <button type="button" class="btn btn-warning float-right mt-0 mr-2"
+                (click)="showChildModalImport()">Import</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+
+          <div class="">
+            <table class="table table-hover">
+
+              <thead class="text-primary">
+                <tr>
+                  <th scope="col" class="text-center" style="width: 5%;">ลำดับที่</th>
+                  <th>รหัสเมนู</th>
+                  <th>ชื่อเมนู</th>
+                  <th>ประเภทเมนู</th>
+
+                  <th>รายละเอียด</th>
+                  <th>จำนวน</th>
+
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let item of cartMenuList ; let i =index">
+                  <td class="text-center">{{i+1}}</td>
+                  <td class="text-primary">
+                    <div class="img-container">
+                      <span class="text-primary text-bold"> {{item.menuName}} </span>
+                    </div>
+                  </td>
+                  <td>{{item.menuCode}}</td>
+                  <td>{{item.menuCategory.menuCategoryName}}</td>
+
+                  <td>{{item.description}}</td>
+                  <td>{{item.quantity}}</td>
+
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<div class="modal fade" bsModal #staticModalImport="bs-modal" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-static-name" class="modal-title pull-left card-title text-primary mt-0">Import Menu</h4>
+        <button type="button" class="close" aria-label="Close" (click)="hideChildModalImport()">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-9">
+
+            <div class="form-group form-file-upload form-file-simple">
+              <input class="form-control inputFileVisible " placeholder="Choose File" type="text"
+                [(ngModel)]="fileName">
+              <input class="inputFileHidden" type="file" (change)="selectFile($event)"
+                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+            </div>
+
+          </div>
+
+          <div class="col-3">
+            <button class="btn btn-success mt-0 btn-round btn-block" [disabled]="!selectedFiles" (click)="upload()">
+              Upload
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="currentFile" class="progress my-3">
+          <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+            attr.aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"
+            [ngStyle]="{ width: progress + '%' }">
+            {{ progress }}%
+          </div>
+        </div>
+        <div *ngIf="message" class="alert alert-danger" role="alert">{{ message }}</div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

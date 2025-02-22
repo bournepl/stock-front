@@ -1,0 +1,376 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-12">
+
+              <h5 class="card-title">ใบรับสินค้า (RI)
+
+              </h5>
+            </div>
+
+          </div>
+        </div>
+        <hr>
+        <div class="card-body">
+          <div class="row mb-2">
+            <div class="col-lg-6" *ngIf="getOrderDetail">
+
+              <div class="row mb-2">
+
+                <div class="col-lg-12">
+                  <span style="font-weight: bold; font-size: 18px;" class="title mb-2">ข้อมูลทั่วไป</span>
+                </div>
+
+              </div>
+
+              <div class="row mb-2">
+                <div class="col-5">
+                  <span class="text-title text-gray">เลขที่เอกสาร :</span>
+                </div>
+                <div class="col-7">
+                  <span class="text-primary text-bold">{{getOrderDetail.riId}}</span>
+                </div>
+              </div>
+
+              <div class="row mb-2">
+                <div class="col-5">
+                  <span class="text-title text-gray">วันที่ :</span>
+                </div>
+                <div class="col-7">
+                  <span class="text-data">{{getOrderDetail.dateDay}} {{getOrderDetail.time}}</span>
+                </div>
+              </div>
+
+              <div class="row mb-2">
+                <div class="col-5">
+                  <span class="text-title text-gray">ผู้สร้างรายการ : </span>
+                </div>
+                <div class="col-7">
+                  <span class="text-data" *ngIf="getUser">{{getUser.name}} </span>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-5">
+                  <span class="text-title text-gray">อ้างอิง : </span>
+                </div>
+                <div class="col-7">
+                  <a class="text-info">
+                    {{getOrderDetail.reference}}
+                  </a>
+                </div>
+              </div>
+
+              <div class="row mb-2">
+                <div class="col-5">
+                  <span class="text-title text-gray">สถานะ : </span>
+                </div>
+                <div class="col-7">
+                  <span class="badge badge-warning" style="font-weight: 500; font-size: 12px;"
+                    *ngIf="getOrderDetail.orderStatus=='รออนุมัติ'">{{getOrderDetail.orderStatus}}</span>
+                  <span class="badge badge-success" style="font-weight: 500; font-size: 12px;"
+                    *ngIf="getOrderDetail.orderStatus=='ดำเนินการแล้ว'">{{getOrderDetail.orderStatus}}</span>
+                  <span class="badge badge-info" style="font-weight: 500; font-size: 12px;"
+                    *ngIf="getOrderDetail.orderStatus=='อนุมัติแล้ว'">{{getOrderDetail.orderStatus}}</span>
+                  <span class="badge badge-danger" style="font-weight: 500; font-size: 12px;"
+                    *ngIf="getOrderDetail.orderStatus=='ไม่อนุมัติ'">{{getOrderDetail.orderStatus}}</span>
+                  <span class="badge badge-purple" style="font-weight: 500; font-size: 12px;"
+                    *ngIf="getOrderDetail.orderStatus=='กำลังดำเนินการ'">{{getOrderDetail.orderStatus}}</span>
+                  <span class="badge badge-danger" style="font-weight: 500; font-size: 12px;"
+                    *ngIf="getOrderDetail.orderStatus=='ยกเลิกรายการ'">{{getOrderDetail.orderStatus}}</span>
+                </div>
+              </div>
+
+
+
+
+            </div>
+            <div class="col-lg-6" *ngIf="getSupplier">
+              <div class="row mb-2">
+
+                <div class="col-lg-12">
+
+                  <span style="font-weight: bold; font-size: 18px;" class="title mb-2">ข้อมูลผู้จัดจำหน่าย</span>
+                </div>
+
+              </div>
+              <div class="row ">
+
+                <div class="col-md-12">
+
+
+                  <div class="row mb-2">
+                    <div class="col-5">
+                      <span class="text-title text-gray">ชื่อผู้จัดจำหน่าย :</span>
+                    </div>
+                    <div class="col-7">
+                      <span class="text-data text-primary text-bold">{{getSupplier.name}}</span>
+                    </div>
+                  </div>
+
+
+
+                  <div class="row mb-2">
+                    <div class="col-5">
+                      <span class="text-title text-gray">เบอร์โทร :</span>
+                    </div>
+                    <div class="col-7">
+                      <span class="text-data">{{getSupplier.phone}}</span>
+                    </div>
+                  </div>
+
+                  <div class="row mb-2">
+
+                    <div class="col-5">
+                      <span class="text-gray ">ที่อยู่: </span>
+                    </div>
+                    <div class="col-7">
+                      <span class="text-data">{{getSupplier.address}} อำเภอ{{getSupplier.district.name}}
+                        <br> จังหวัด{{getSupplier.province.name}} {{getSupplier.zipcode}}</span>
+                    </div>
+
+                  </div>
+                  <div class="row mb-2">
+
+                    <div class="col-5">
+                      <span class="text-gray">เลขผู้เสียภาษี: </span>
+                    </div>
+                    <div class="col-7">
+                      <span class="text-data">{{getSupplier.idNumber}} </span>
+                    </div>
+
+                  </div>
+
+                  <div class="row mb-2" *ngIf="getSupplier.description">
+                    <div class="col-5">
+                      <span class="text-gray">รายละเอียด :</span>
+                    </div>
+                    <div class="col-7">
+                      <span class="text-data">{{getSupplier.description}}</span>
+                    </div>
+                  </div>
+
+                </div>
+
+
+
+
+              </div>
+
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+
+    <div class="col-md-12">
+      <div class="card">
+
+        <div class="card-header">
+
+          <div class="row">
+            <div class="col-md-6">
+
+              <h5 class="card-title">รายการวัตถุดิบ
+
+              </h5>
+            </div>
+
+            <div class="col-md-6 text-right">
+              <span class="badge badge-brown mr-3 mt-3" style="font-weight: 500; font-size: 12px;">รายการสินค้า :
+                {{totalItem}} รายการ</span>
+              <span class="badge badge-brown" style="font-weight: 500; font-size: 12px;">จำนวนทั้งหมด :
+                {{totalQuantity}}</span>
+
+            </div>
+
+          </div>
+        </div>
+
+        <div class="card-body">
+
+          <div class="">
+            <table class="table table-hover">
+
+              <thead class="text-primary">
+                <tr>
+                  <th class="text-center" style="width: 5%;">ลำดับที่</th>
+                  <th>รูปภาพ</th>
+                  <th>ชื่อวัตถุดิบ</th>
+                  <th>ชื่อหมวดหมู่</th>
+                  <th style="width: 20%;">จำนวน</th>
+                  <th>หน่วย</th>
+                  <th class="text-right">ราคา</th>
+                  <th class="text-right">ราคารวม</th>
+
+
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let item of cartItemList;let i =index;">
+                  <td data-label="ลำดับที่">{{i+1}}</td>
+                  <td class="text-dark" data-label="รูปภาพ">
+                    <div class="img-container">
+                      <img class="img-row"
+                        [src]="item.imageUrl == '' || item.imageUrl == null ? imageToShow : item.imageUrl" alt="image">
+
+                    </div>
+                  </td>
+                  <td class="text-primary" data-label="ชื่อวัตถุดิบ">
+
+                    <span class="text-primary text-bold"> {{item.ingredientName}}</span>
+
+                  </td>
+
+                  <td data-label="ชื่อหมวดหมู่"> {{item.category.ingredientCategoryName}}</td>
+                  <td *ngIf="getOrderDetail">
+                    <span data-label="จำนวน" *ngIf="getOrderDetail.statusApproved"> {{item.quantityRequest}}</span>
+                    <div *ngIf="!getOrderDetail.statusApproved" class="btn-group" role="group"
+                      aria-label="Basic example">
+                      <div class=" input-group input-lg" [ngClass]="{'input-group-focus':focus1===true}">
+                        <div class="input-group-prepend input-group-prepend-quantity">
+                          <button class="input-group-text btn-success pr-3" (click)="onRemoveQuantity(item,i)">
+                            <span class="material-icons">
+                              remove</span>
+                          </button>
+                        </div>
+                        <input min="1" type="number" class="form-control text-center" (focus)="focus1=true"
+                          (blur)="focus1=false" [(ngModel)]="item.quantityRequest" (change)="onSearchChange(item,i)"
+                          [ngModelOptions]="{standalone: true}" value="{{item.quantityRequest}}" />
+                        <div class="input-group-append">
+                          <button class="input-group-text btn-success pl-3" (click)="onAddQuantity(item,i)">
+                            <span class="material-icons">add</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-label="หน่วย">{{item.purchaseUnit}}</td>
+                  <td data-label="ราคา" class="text-right"> {{item.price| number:'1.2-2'}}</td>
+                  <td data-label="ราคารวม" class="text-right"> {{item.quantityRequest*item.price| number:'1.2-2'}} </td>
+
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+          <hr>
+
+          <div class="row mt-3" *ngIf="getOrderDetail">
+
+            <div class="col-6">
+              <div class="row mb-2">
+                <div class="col-md-2 text-left">
+                  <span class="text-gray">หมายเหตุ : </span>
+                </div>
+                <div class="col-md-10 ">
+                  <span class="text-dark ">{{getOrderDetail.description }}</span>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-md-6">
+
+              <div class="row mb-2">
+                <div class="col-6 text-left">
+                  <span class="text-muted">รวมเป็นเงิน</span>
+                </div>
+                <div class="col-6 text-right">
+                  <span class="text-dark ">{{total | number:'1.2-2'}}</span>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-6 text-left">
+                  <span class="text-muted">ค่าจัดส่ง</span>
+                </div>
+                <div class="col-6 text-right">
+                  <span class="text-dark ">{{shipping | number:'1.2-2'}}</span>
+                </div>
+              </div>
+
+              <div class="row mb-2">
+                <div class="col-6  text-left">
+                  <span class="text-muted">ส่วนลดท้ายบิล</span>
+                </div>
+                <div class="col-6 text-right">
+                  <span class="text-dark">-{{discountValue | number:'1.2-2'}}</span>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-6  text-left">
+                  <span class="text-muted">ราคาหลังหักส่วนลด</span>
+                </div>
+                <div class="col-6 text-right">
+                  <span class="text-dark">{{totalDiscount | number:'1.2-2'}}</span>
+                </div>
+              </div>
+
+
+              <div class="row mb-2">
+                <div class="col-6  text-left">
+                  <span class="text-muted">มูลค่ารวมก่อนภาษี </span>
+                </div>
+                <div class="col-6 text-right">
+                  <span class="text-dark">{{totalVat | number:'1.2-2'}}</span>
+                </div>
+              </div>
+
+              <div class="row mb-2">
+                <div class="col-6  text-left">
+                  <span class="text-muted">ภาษีมูลค่าเพิ่ม (7%) </span>
+                </div>
+                <div class="col-6 text-right">
+                  <span class="text-dark">{{vat | number:'1.2-2'}}</span>
+                </div>
+              </div>
+
+
+              <hr>
+
+              <div class="row mb-3">
+
+                <div class="col-6  text-left">
+                  <b><span style="font-weight: bold;" class="text-primary">จำนวนเงินรวมทั้งสิ้น</span></b>
+                </div>
+                <div class="col-6 text-right">
+                  <b><span style="font-weight: bold;" class="text-primary ">{{totalAll |
+                      number:'1.2-2'}}</span></b>
+                </div>
+              </div>
+
+
+            </div>
+
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-md-12">
+              <button type="button" class="btn float-right btn-success mt-0 ml-2" *ngIf="!getOrderDetail.statusApproved"
+                (click)="onApporved(getOrderDetail.id)">
+                รับสินค้าเข้า
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>

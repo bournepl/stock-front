@@ -1,0 +1,462 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+
+          <div class="row">
+            <div class="col-md-6">
+
+              <h5 class="card-title">เพิ่มเมนูใหม่
+
+              </h5>
+            </div>
+            <div class="col-md-6 text-right">
+              <button class="btn  btn-gray mr-2 btn-round" type="button" (click)="onBack()">ยกเลิก</button>
+              <button class="btn btn-success btn-round" type="button" (click)="create()">สร้างเมนู</button>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="card-body">
+          <form [formGroup]="menuForm">
+            <div class="row">
+              <div class="col-md-6  ">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['category'].touched && f['category'].errors, 'has-success': f['category'].valid }">
+                  <label>หมวดหมู่วัตถุดิบ *</label>
+                  <select class="form-control" formControlName="category" (change)="onChangeCategory($event.target)"
+                    required>
+
+                    <option *ngFor="let getCategory of getCategory" [value]="getCategory.id">
+                      {{getCategory.menuCategoryName}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="col-md-6">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['menuName'].touched && f['menuName'].errors, 'has-success': f['menuName'].valid }">
+                  <label>ชื่อเมนู</label>
+                  <input type="text" class="form-control " formControlName="menuName">
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['description'].touched && f['description'].errors, 'has-success': f['description'].valid }">
+                  <label>รายละเอียด</label>
+                  <textarea rows="4" cols="80" class="form-control" formControlName="description"> </textarea>
+                </div>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+
+    <div class="col-md-12">
+      <div class="card">
+
+        <div class="card-header">
+
+          <div class="row">
+            <div class="col-md-6">
+
+              <h5 class="card-title">รายการวัตถุดิบ
+
+              </h5>
+            </div>
+            <div class="col-md-6">
+              <button type="button" class="btn btn-primary float-right mt-0"
+                (click)="showChildModal()">เลือกวัตถุดิบ</button>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+
+          <div class="">
+            <table class="table table-hover">
+
+              <thead class="text-primary">
+                <tr>
+                  <th class="text-center" style="width: 10%;">ลำดับที่</th>
+                  <th>รูปภาพ</th>
+                  <th>ชื่อวัตถุดิบ</th>
+                  <th>ชื่อหมวดหมู่</th>
+                  <th style="width: 15%;">ปริมาณที่ใช้</th>
+                  <th>หน่วย</th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let item of cartIngredientsList; let i =index;">
+                  <td class="text-center">{{i+1}}</td>
+                  <td class="text-dark">
+                    <div class="img-container">
+                      <img class="img-row"
+                        [src]="item.imageUrl == '' || item.imageUrl == null ? imageToShow : item.imageUrl" alt="image">
+
+                    </div>
+                  </td>
+                  <td class="text-primary">
+
+                    <span class="text-primary text-bold"> {{item.ingredientName}}</span>
+
+                  </td>
+
+                  <td> {{item.category.ingredientCategoryName}}</td>
+
+                  <td>
+                    <div class="form-group">
+
+                      <input min="1" type="number" class="form-control text-center" (focus)="focus=true"
+                        value="{{item.amount}}" (blur)="focus=false" [(ngModel)]="item.amount"
+                        (change)="onSearchChange(item,i)" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                  </td>
+                  <td>{{item.useUnit}}</td>
+
+                  <td class="text-center">
+
+                    <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'"
+                      class="btn btn-danger btn-sm btn-link btn-just-icon" (click)="onDelete(item)">
+                      <i class="material-icons">close</i>
+                    </button>
+
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-md-12">
+      <div class="card">
+
+        <div class="card-header">
+
+          <div class="row">
+            <div class="col-md-6">
+
+              <h5 class="card-title">รายการวัตถุดิบ Packaging
+
+              </h5>
+            </div>
+            <div class="col-md-6">
+              <button type="button" class="btn btn-primary float-right mt-0"
+                (click)="showChildModalPackage()">เลือกวัตถุดิบ</button>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+
+          <div class="">
+            <table class="table table-hover">
+
+              <thead class="text-primary">
+                <tr>
+                  <th class="text-center" style="width: 10%;">ลำดับที่</th>
+                  <th>รูปภาพ</th>
+                  <th>ชื่อวัตถุดิบ</th>
+                  <th>ชื่อหมวดหมู่</th>
+                  <th style="width: 15%;">ปริมาณที่ใช้</th>
+                  <th>หน่วย</th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let item of cartIngredientsListPackage; let i =index;">
+                  <td class="text-center">{{i+1}}</td>
+                  <td class="text-dark">
+                    <div class="img-container">
+                      <img class="img-row"
+                        [src]="item.imageUrl == '' || item.imageUrl == null ? imageToShow : item.imageUrl" alt="image">
+
+                    </div>
+                  </td>
+                  <td class="text-primary">
+
+                    <span class="text-primary text-bold"> {{item.ingredientName}}</span>
+
+                  </td>
+
+                  <td> {{item.category.ingredientCategoryName}}</td>
+
+                  <td>
+                    <div class="form-group">
+
+                      <input min="1" type="number" class="form-control text-center" (focus)="focus=true"
+                        value="{{item.amount}}" (blur)="focus=false" [(ngModel)]="item.amount"
+                        (change)="onSearchChangePackage(item,i)" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                  </td>
+                  <td>{{item.useUnit}}</td>
+
+                  <td class="text-center">
+
+                    <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'"
+                      class="btn btn-danger btn-sm btn-link btn-just-icon" (click)="onDeletePackage(item)">
+                      <i class="material-icons">close</i>
+                    </button>
+
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<div class="modal fade" bsModal #staticModal="bs-modal" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="dialog-static-name" class="modal-title pull-left card-title text-primary mt-0">เลือกวัตถุดิบ
+        </h5>
+        <button type="button" class="close" aria-label="Close" (click)="hideChildModal()">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <select class="form-control" (change)="onChange($event)" [(ngModel)]="categoryId"
+                [ngModelOptions]="{standalone: true}">
+                <option value="">Category</option>
+                <option *ngFor="let getCategory of getCategoryIn" [value]="getCategory.id">
+                  {{getCategory.ingredientCategoryName}}</option>
+
+              </select>
+
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus1===true}">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-search"></i></span>
+              </div>
+              <input type="text" placeholder="Search..." class="form-control" (focus)="focus1=true"
+                (blur)="focus1=false" [(ngModel)]="search" [ngModelOptions]="{standalone: true}"
+                (keyup)="onKeyUp($event)" />
+            </div>
+          </div>
+
+        </div>
+        <div class="">
+          <table class="table table-hover">
+
+            <thead class="text-primary">
+              <tr>
+
+                <th>รูปภาพ</th>
+                <th>ชื่อวัตถุดิบ</th>
+                <th>ชื่อหมวดหมู่</th>
+                <th>รายละเอียด</th>
+                <th>หน่วยใช้</th>
+                <th class="text-center">Action</th>
+
+
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr
+                *ngFor="let item of getIngredients | paginate: {id: 'pagination',itemsPerPage: pageSize, currentPage: page,totalItems: count }; let i =index;">
+
+                <td class="text-dark">
+                  <div class="img-container">
+                    <img class="img-row"
+                      [src]="item.imageUrl == '' || item.imageUrl == null ? imageToShow : item.imageUrl" alt="image">
+
+                  </div>
+                </td>
+                <td class="text-primary">
+
+                  <span class="text-primary text-bold"> {{item.ingredientName}}</span>
+
+                </td>
+
+                <td> {{item.category.ingredientCategoryName}}</td>
+
+                <td>{{item.description}}</td>
+                <td>{{item.useUnit}} </td>
+                <td class="text-center">
+                  <button type="button" matTooltip="เลือก" [matTooltipPosition]="'above'" class="btn btn-success btn-sm"
+                    (click)="onAddProductToCart(item)">
+                    เลือก
+                  </button>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+        <div class="row mt-2">
+
+          <div class="col-md-12 text-center">
+            <pagination-controls class="pageData" id="pagination" previousLabel="Prev" nextLabel="Next"
+              [responsive]="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+          </div>
+
+        </div>
+      </div>
+
+
+
+
+
+    </div>
+  </div>
+
+</div>
+
+
+
+
+<div class="modal fade" bsModal #staticModalPackage="bs-modal" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="dialog-static-name" class="modal-title pull-left card-title text-primary mt-0">เลือกวัตถุดิบ Packaging
+        </h5>
+        <button type="button" class="close" aria-label="Close" (click)="hideChildModalPackage()">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <select class="form-control" (change)="onChangePackage($event)" [(ngModel)]="categoryIdPackage"
+                [ngModelOptions]="{standalone: true}">
+                <option value="">Category</option>
+                <option *ngFor="let getCategory of getCategoryIn" [value]="getCategory.id">
+                  {{getCategory.ingredientCategoryName}}</option>
+
+              </select>
+
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus1===true}">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-search"></i></span>
+              </div>
+              <input type="text" placeholder="Search..." class="form-control" (focus)="focus1=true"
+                (blur)="focus1=false" [(ngModel)]="searchPackage" [ngModelOptions]="{standalone: true}"
+                (keyup)="onKeyUpPackage($event)" />
+            </div>
+          </div>
+
+        </div>
+        <div class="">
+          <table class="table table-hover">
+
+            <thead class="text-primary">
+              <tr>
+
+                <th>รูปภาพ</th>
+                <th>ชื่อวัตถุดิบ</th>
+                <th>ชื่อหมวดหมู่</th>
+                <th>รายละเอียด</th>
+                <th>หน่วยใช้</th>
+                <th class="text-center">Action</th>
+
+
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr
+                *ngFor="let item of getIngredientsPackage | paginate: {id: 'pagination2',itemsPerPage: pageSizePackage, currentPage: pagePackage,totalItems: countPackage }; let i =index;">
+
+                <td class="text-dark">
+                  <div class="img-container">
+                    <img class="img-row"
+                      [src]="item.imageUrl == '' || item.imageUrl == null ? imageToShow : item.imageUrl" alt="image">
+
+                  </div>
+                </td>
+                <td class="text-primary">
+
+                  <span class="text-primary text-bold"> {{item.ingredientName}}</span>
+
+                </td>
+
+                <td> {{item.category.ingredientCategoryName}}</td>
+
+                <td>{{item.description}}</td>
+                <td>{{item.useUnit}} </td>
+                <td class="text-center">
+                  <button type="button" matTooltip="เลือก" [matTooltipPosition]="'above'" class="btn btn-success btn-sm"
+                    (click)="onAddProductToCartPackage(item)">
+                    เลือก
+                  </button>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+        <div class="row mt-2">
+
+          <div class="col-md-12 text-center">
+            <pagination-controls class="pageData" id="pagination2" previousLabel="Prev" nextLabel="Next"
+              [responsive]="true" (pageChange)="handlePageChangePackage($event)"></pagination-controls>
+          </div>
+
+        </div>
+      </div>
+
+
+
+
+
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,267 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="title">ข้อมูลวัตถุดิบ</h5>
+        </div>
+        <div class="card-body m-2">
+          <div class="row justify-content-center">
+            <div class="col-md-12">
+
+              <img alt="User Pic" [src]="url ? url : imageToShow" class="img-upload" />
+            </div>
+          </div>
+          <div class="card-body" *ngIf="getIngredients">
+            <div class="row mt-2">
+              <div class="col-6 text-left">
+
+                <label>ชื่อวัตถุดิบ</label>
+              </div>
+              <div class="col-6">
+                <label class="text-dark"><b>{{getIngredients.ingredientName}}</b></label>
+              </div>
+
+            </div>
+            <div class="row  ">
+              <div class="col-6 text-left">
+
+                <label>รหัสวัตถุดิบ</label>
+              </div>
+              <div class="col-6">
+                <label class="text-dark"><b>{{getIngredients.ingredientId}}</b></label>
+              </div>
+
+            </div>
+            <div class="row  ">
+              <div class="col-6 text-left">
+
+                <label>ยี่ห้อ</label>
+              </div>
+              <div class="col-6">
+                <label class="text-dark"><b>{{getIngredients.brand}}</b></label>
+              </div>
+
+            </div>
+            <div class="row ">
+              <div class="col-6 text-left">
+
+                <label>หมวดหมู่วัตถุดิบ</label>
+              </div>
+              <div class="col-6 ">
+                <label><b>{{getIngredients.category.ingredientCategoryName}}</b></label>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-6 text-left">
+
+                <label>ราคา</label>
+              </div>
+              <div class="col-6 ">
+                <label><b>{{getIngredients.price| number:'1.2-2'}}</b></label>
+              </div>
+
+            </div>
+            <div class="row ">
+              <div class="col-6 text-left">
+
+                <label>หน่วยซื้อเข้า</label>
+              </div>
+              <div class="col-6 ">
+                <label><b>{{getIngredients.purchaseUnit}}</b></label>
+              </div>
+
+            </div>
+
+            <div class="row ">
+              <div class="col-6 text-left">
+
+                <label>หน่วยนับสต๊อก</label>
+              </div>
+              <div class="col-6 ">
+                <label><b>{{getIngredients.stockUnit}}</b></label>
+              </div>
+
+            </div>
+
+            <div class="row ">
+              <div class="col-6 text-left">
+
+                <label>หน่วยใช้</label>
+              </div>
+              <div class="col-6 ">
+                <label><b>{{getIngredients.useUnit}}</b></label>
+              </div>
+
+            </div>
+            <div class="row ">
+              <div class="col-6 text-left">
+
+                <label>นโยบายเก็บสูงสุดในคลัง</label>
+              </div>
+              <div class="col-6 ">
+                <label><b>{{getIngredients.safetyStockMax}}</b></label>
+              </div>
+
+            </div>
+            <div class="row ">
+              <div class="col-6 text-left">
+
+                <label>นโยบายการเก็บ Safety Stock</label>
+              </div>
+              <div class="col-6">
+                <label><b>{{getIngredients.safetyStockMin}}</b></label>
+              </div>
+
+            </div>
+            <div class="row ">
+              <div class="col-6 text-left">
+
+                <label>ระยะเวลาจัดส่ง (Leadtime)</label>
+              </div>
+              <div class="col-6">
+                <label><b>{{getIngredients.leadtime}}</b></label>
+              </div>
+
+            </div>
+            <div class="row ">
+              <div class="col-6 text-left">
+
+                <label>รายละเอียด</label>
+              </div>
+              <div class="col-6">
+                <label><b>{{getIngredients.description}}</b></label>
+              </div>
+
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h5 class="title">Barcode</h5>
+        </div>
+        <div class="card-body m-2">
+          <div style="text-align:center" *ngIf="getIngredients">
+            <ngx-barcode6 [bc-format]="'CODE128'" [bc-value]="getIngredients.barCodeNumber" [bc-display-value]="true">
+            </ngx-barcode6>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card card-stats">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="statistics">
+                    <div class="info">
+
+                      <h3 class="info-title">{{sum}}</h3>
+                      <h6 class="stats-title">ปริมสณที่ใช้</h6>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card card-stats">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="statistics">
+                    <div class="info">
+
+                      <h3 class="info-title">{{getIngredientsHistory.length}}</h3>
+                      <h6 class="stats-title">จำนวน</h6>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h5 class="title">ประวัติการใช้วัตถุดิบ</h5>
+        </div>
+        <div class="card-body">
+
+          <table class="table table-hover">
+
+            <thead>
+              <tr class="tr-header">
+                <th>วันที่ใช้</th>
+                <th>เมนู</th>
+                <th>ปริมาณที่ใช้</th>
+                <th>หน่วย</th>
+
+              </tr>
+            </thead>
+            <tbody *ngFor="let getIngredientsHistory of getIngredientsHistory ">
+              <tr>
+                <td class="text-primary">
+
+                  <div class="row">
+
+                    <div class="col-12">
+                      <span class="text-dark"> {{getIngredientsHistory.dateDay}} </span>
+                    </div>
+
+                  </div>
+                </td>
+                <td class="text-primary">
+
+                  <div class="row" *ngFor="let getMenu of getMenu">
+
+                    <div class="col-12" *ngIf="getMenu.id==getIngredientsHistory.menuId">
+                      <span class="text-dark"> {{getMenu.menuName}} </span>
+                    </div>
+
+                  </div>
+                </td>
+                <td class="text-primary">
+
+                  <div class="row">
+
+                    <div class="col-12">
+                      <span class="text-dark"> {{getIngredientsHistory.useAmount}} </span>
+                    </div>
+
+                  </div>
+                </td>
+                <td class="text-primary" *ngIf="getIngredients">
+
+                  <div class="row">
+
+                    <div class="col-12">
+                      <span class="text-dark"> {{getIngredients.useUnit}} </span>
+                    </div>
+
+                  </div>
+                </td>
+
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

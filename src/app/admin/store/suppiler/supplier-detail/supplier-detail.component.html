@@ -1,0 +1,236 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+
+  <div class="row" *ngIf="getSupplierById">
+    <div class="col-lg-4">
+
+      <div class="card">
+
+        <div class="card-body">
+          <div class="row justify-content-center">
+            <div class="col-4 text-center">
+              <img class="img-account mb-2" src="assets/img/account.png" alt="...">
+
+            </div>
+
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-12 text-center">
+              <a>
+                <h5 class="title">{{getSupplierById.name}}</h5>
+              </a>
+
+            </div>
+
+          </div>
+
+          <hr>
+          <div class="row">
+            <div class="col-5">
+              <label class="text-title">ชื่อผู้จัดจำหน่าย</label>
+            </div>
+            <div class="col-7">
+              <label class="text-dark">{{getSupplierById.name}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5">
+              <label class="text-title">เบอร์โทร</label>
+            </div>
+            <div class="col-7">
+              <label class="text-dark">{{getSupplierById.phone}}</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-5">
+              <label class="text-title">อีเมล</label>
+            </div>
+            <div class="col-7">
+              <label class="text-dark">{{getSupplierById.email}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5">
+              <label class="text-title">เลขผู้เสียภาษี</label>
+            </div>
+            <div class="col-7">
+              <label class="text-dark">{{getSupplierById.idNumber}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5">
+              <label class="text-title">รายละเอียด</label>
+            </div>
+            <div class="col-7">
+              <label class="text-dark">{{getSupplierById.description}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5">
+              <label class="text-title">ที่อยู่</label>
+            </div>
+            <div class="col-7">
+              <label class="text-dark">{{getSupplierById.address}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5">
+              <label class="text-title">อำเภอ</label>
+            </div>
+            <div class="col-7">
+              <label class="text-dark">{{getSupplierById.district.name}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5">
+              <label class="text-title">จังหวัด</label>
+            </div>
+            <div class="col-7">
+              <label class="text-dark">{{getSupplierById.province.name}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5">
+              <label class="text-title">รหัสไปรษณีย์</label>
+            </div>
+            <div class="col-7">
+              <label class="text-dark">{{getSupplierById.zipcode}}</label>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'"
+                (click)="onDelete(getSupplierById.id)" class="btn btn-danger btn-link  ">
+                <i class="material-icons">close</i><span class="text-danger ml-2">ลบข้อมูล</span>
+              </button>
+
+            </div>
+          </div>
+
+        </div>
+
+
+
+      </div>
+    </div>
+    <div class="col-lg-8 grid-margin stretch-card">
+
+
+      <div class="card">
+        <div class="card-header">
+          <h5 class="title">แก้ไขผู้จัดจำหน่าย</h5>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-md-12 supplier">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['name'].touched && f['name'].errors, 'has-success': f['name'].valid }">
+                  <label>ชื่อผู้จัดจำหน่าย</label>
+                  <input type="text" class="form-control" formControlName="name">
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-6  supplier">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['phone'].touched && f['phone'].errors, 'has-success': f['phone'].valid }">
+                  <label for="phone">เบอร์โทร</label>
+                  <input type="text" class="form-control" formControlName="phone">
+                </div>
+              </div>
+              <div class="col-md-6 supplier">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['email'].touched && f['email'].errors, 'has-success': f['email'].valid }">
+                  <label>อีเมล</label>
+
+                  <input type="email" class="form-control" formControlName="email">
+                </div>
+              </div>
+
+
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['idNumber'].touched && f['idNumber'].errors, 'has-success': f['idNumber'].valid }">
+                  <label for="idNumber">เลขผู้เสียภาษี</label>
+                  <input type="text" class="form-control" formControlName="idNumber">
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['address'].touched && f['address'].errors, 'has-success': f['address'].valid }">
+                  <label>ที่อยู่</label>
+                  <input type="text" class="form-control" formControlName="address">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 supplier">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['province'].touched && f['province'].errors, 'has-success': f['province'].valid }">
+                  <label>จังหวัด</label>
+                  <select class="form-control" formControlName="province" (change)="onChangeProvince($event.target)">
+                    <option value=""> จังหวัด </option>
+                    <option *ngFor="let getProvince of getProvince" [value]="getProvince.pid"> {{getProvince.name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4 px-1">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['district'].touched && f['district'].errors, 'has-success': f['district'].valid }">
+                  <label>อำเภอ</label>
+                  <select class="form-control" formControlName="district" (change)="onChangeDistrict($event.target)">
+                    <option value=""> อำเภอ </option>
+                    <option *ngFor="let getDistrict of getDistrict" [value]="getDistrict.id"> {{getDistrict.name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4 supplier">
+
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['zipcode'].touched && f['zipcode'].errors, 'has-success': f['zipcode'].valid }">
+                  <label>รหัสไปรษณีย์</label>
+                  <input class="form-control" placeholder="" formControlName="zipcode">
+                </div>
+
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group"
+                  [ngClass]="{ 'has-danger': f['description'].touched && f['description'].errors, 'has-success': f['description'].valid }">
+                  <label>รายละเอียด</label>
+                  <textarea rows="4" cols="80" class="form-control" formControlName="description"> </textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <div class="update">
+                  <button class="btn  btn-gray mr-2" type="button" (click)="onBack()"><span>ย้อนกลับ</span></button>
+                  <button class="btn btn-success" type="submit"><span>บันทึกข้อมูล</span></button>
+                </div>
+              </div>
+            </div>
+          </form>
+
+
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
